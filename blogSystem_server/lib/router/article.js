@@ -1,0 +1,50 @@
+import express from 'express';
+
+import {postArticles, findAll, findById, findByType, updateArticles,
+	deleteArticles} from '../manager/article';
+
+const router = express.Router();
+
+//发表文章
+router.use('/postArticles', (req, res) => {
+	let articleData = {
+		type: req.body.type,
+		title: req.body.title,
+		contents: req.body.contents
+	};
+	//console.log(req.body.contents);
+	postArticles(articleData, req, res);
+});
+
+//查找所有文章
+router.use('/findAll', (req, res) => {
+	findAll(req, res);
+});
+
+//根据id查找文章
+router.use('/findById', (req, res) => {
+	findById(req.param('id'), req, res);
+});
+
+//根据type查找文章
+router.use('/findByType', (req, res) => {
+	findByType(req.param('type'), req, res);
+});
+
+//根据id删除文章
+router.use('/deleteArticles', (req, res) => {
+	deleteArticles(req.param('id'), req, res);
+});
+
+//根据id修改文章
+router.use('/updateArticles', (req, res) => {
+	let articleData = {
+		id: req.body.id,
+		type: req.body.type,
+		title: req.body.title,
+		contents: req.body.contents
+	};
+	updateArticles(articleData, req, res);
+});
+
+export default router;

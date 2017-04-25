@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>测试</title>
+	<meta charset="utf-8">
+</head>
+<body>
+	<input type="username" id="username"><br />
+	<input type="password" id="password"><br />
+	<button type="button" id="test">测试</button>
+
+	<p>请选择类型</p>
+	<select id="select">
+		<option value=""></option>
+		<option value="html">hmtl</option>
+		<option value="css">css</option>
+		<option value="js">js</option>
+	</select>
+	<input type="text" id="news"><br />
+	<input type="text" id="title" placeholder="请输入标题"><br />
+	<textarea placeholder="请输入内容" id="contents"></textarea>
+	<button id="post">发表</button>
+
+	<button type="button" id="find">查询所有文章</button><br />
+	<button type="button" id="findId">查询第一条信息</button><br />
+	<button type="button" id="findType">查询HTML标签文章</button>
+	<button type="button" id="deleteId">删除第一条信息</button><br />
+	<div id="article">
+		<button type="button" id="start">开始</button>
+		<p id="tit"></p>
+		<textarea id="tents"></textarea>
+		<button id="update">修改</button>
+	</div>
+
+	<script type="text/javascript" src="./jquery.js"></script>
+	<script type="text/javascript">
+		var res;
+		$('#test').on('click', function () {
+			//console.log($('#username').val());
+			$.ajax({
+				url: 'http://localhost:3001/manager/login',
+				method: 'POST',
+				data: {
+					username: $('#username').val(),
+					password: $('password').val()
+				},
+				success: function (data) {
+					console.log(data);
+				},
+				error: function () {
+					console.log('fail');
+				}
+			});
+		});
+
+		$('#post').on('click', function () {
+			//console.log($('#contents').val());
+			$.ajax({
+				url: 'http://localhost:3001/manager/article/postArticles',
+				method: 'POST',
+				data: {
+					type: $('#select').val() || $('#news').val(),
+					title: $('#title').val(),
+					contents: $('#contents').val()
+				},
+				success: function (data) {
+					console.log(data);
+				},
+				error: function () {
+					console.log('failed');
+				}
+			});
+		});
+
+		$('#update').on('click', function () {
+			//console.log(res.result[1]._id);
+			$.ajax({
+				url: 'http://localhost:3001/manager/article/updateArticles',
+				method: 'POST',
+				data: {
+					id: res.result[1]._id,
+					type: 'css',
+					title: $('#tit').val(),
+					contents: $('#tents').val()
+				},
+				success: function (data) {
+					console.log(data);
+				},
+				error: function () {
+					console.log('failed');
+				}
+			});
+		});
+
+		$('#find').on('click', function () {
+			$.ajax({
+				url: 'http://localhost:3001/manager/article/findAll',
+				method: 'GET',
+				success: function (data) {
+					res = data;
+					console.log(data);
+				},
+				error: function () {
+					console.log('failed');
+				}
+			});
+		});
+
+		$('#start').on('click', () => {
+			var tit = document.getElementById('tit');
+			var tents = document.getElementById('tents');
+			//console.log($('#tit'));
+			tit.innerHTML = res.result[1].title;
+			tents.innerHTML = res.result[1].contents;
+		});
+
+		$('#findId').on('click', function () {
+			//console.log(res);
+			$.ajax({
+				url: 'http://localhost:3001/manager/article/findById?id=' + res.result[0]._id,
+				method: 'GET',
+				success: function (data) {
+					console.log(data);
+				},
+				error: function () {
+					console.log('failed');
+				}
+			});
+		});
+
+		$('#findType').on('click', function () {
+			$.ajax({
+				url: 'http://localhost:3001/manager/article/findByType?type=html',
+				method: 'GET',
+				success: function (data) {
+					console.log(data);
+				},
+				error: function () {
+					console.log('failed');
+				}
+			});
+		});
+
+		$('#deleteId').on('click', function () {
+			$.ajax({
+				url: 'http://localhost:3001/manager/article/deleteArticles?id=' + res.result[0]._id,
+				method: 'GET',
+				success: function (data) {
+					console.log(data);
+				},
+				error: function () {
+					console.log('failed');
+				}
+			});
+		});
+	</script>
+</body>
+</html>
