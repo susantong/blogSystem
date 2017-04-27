@@ -1,9 +1,11 @@
 <template>
 	<div class="index">
-		<myHeader class="header"></myHeader>
-    	<myAside class="myaside"></myAside>
-    	<div class="content">
-    		<router-view></router-view>
+		<myHeader class="myheader"></myHeader>
+		<myAside class="myaside" v-show="data.msg"></myAside>
+    	<div class="content-wrap">
+    		<div class="content">
+    			<router-view></router-view>
+    		</div>
     	</div>
 	</div>
 </template>
@@ -20,31 +22,47 @@ import myAside from './public/myAside.vue';
   		},
 		data() {
 			return {
-
+				data: {
+					msg: false
+				}
 			}
+		},
+		created() {
+			this.$root.eventHub.$on('change', (msg) => {
+				this.data.msg = msg;
+			});
+		},
+		methods: {
 		}
 	}
 </script>
 
 <style lang="scss">
 	.index {
-		.header {
-	      position: fixed;
-	      top: 0;
-	      left: 0;
-	      z-index: 999;
-	    }
-
-	    .myaside {
-	      position: fixed;
-	      top: 50px;
-	      left: 0;
-	    }
-
+		.myheader {
+			position: fixed;
+			top: 0;
+			left: 0;
+			z-index: 999;
+		}
+		.header-wrap {
+			overflow: hidden;
+			position: relative;
+		}
+		.myaside {
+			position: fixed;
+			left: 0;
+			top: 50px;
+			z-index: 999;
+		}
+		.content-wrap {
+			position: absolute;
+			top: 80px;
+			width: 100%;
+		}
 	    .content {
-	      position: absolute;
-	      top: 100px;
-	      left: 300px;
+	      width: 60%;
+	      margin: 0 auto;
 	    }
 	}
 </style>
