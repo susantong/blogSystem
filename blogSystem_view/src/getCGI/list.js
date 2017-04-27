@@ -1,7 +1,14 @@
+function civilize(time) {
+	if (time > 0 && time < 10) {
+		return '0' + time;
+	}
+	return time;
+}
+
 let getTime = function () {
 	let time = new Date();
 	return time.getFullYear() + '-' + (time.getMonth() + 1) + '-' + time.getDate()
-	+ ' ' + time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds();
+	+ ' ' + civilize(time.getHours()) + ':' + civilize(time.getMinutes()) + ':' + civilize(time.getSeconds());
 }
 
 export default function (data) {

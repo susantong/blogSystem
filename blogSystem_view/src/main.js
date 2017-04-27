@@ -11,5 +11,8 @@ import Router from './routers/index.js'
 new Vue({
   el: '#app',
   router: Router,
-  render: h => h(App)
+  render: h => h(App),
+  data: {
+  	eventHub: new Vue()
+  }
 })

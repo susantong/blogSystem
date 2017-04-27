@@ -1,5 +1,5 @@
 <template>
-	<div class="aside">
+	<div class="aside" @mouseover="show">
 		<div class="aside-title">
 			<p></p>
 			<span>susantong</span>
@@ -18,7 +18,7 @@
 				<i style="background: url(/src/assets/images/icon.jpg) 0 -78px no-repeat;"></i>
 				<span>新箴言</span>
 			</router-link>
-			<router-link to="/show" tag="li">
+			<router-link to="/manager" tag="li">
 				<i style="background: url(/src/assets/images/icon.jpg) 0 -52px no-repeat;"></i>
 				<span>管理</span>
 			</router-link>
@@ -32,13 +32,26 @@
 
 <script>
 	export default {
-		name: 'myAside'
+		name: 'myAside',
+		data() {
+			return {
+				data: {
+					msg: false
+				}
+			}
+		},
+		methods: {
+			show() {
+				this.data.msg = !this.data.msg;
+				this.$root.eventHub.$emit('change', this.data.msg);
+			}
+		}
 	}
 </script>
 
 <style lang="scss">
 	.aside {
-		background-color: #32323a;
+		background-color: #6d6c6c;
 		width: 200px;
 		height: 100%;
 		border-top: 1px solid #000;

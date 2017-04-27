@@ -16,7 +16,7 @@ html {overflow-y: scroll;}
 body, html {
 	width: 100%;
 	height: 100%;
-	background-color: #efefef;
+	overflow-x: hidden;
 }
 
 button {
@@ -33,6 +33,14 @@ button {
 	outline: none;
 }
 button:hover {
-	background-color: #5cb85c;
+	background-color: #f6a90e;
 	color: #fff;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+img {
+	border: 0;
 }

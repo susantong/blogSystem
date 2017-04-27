@@ -2,6 +2,9 @@ import VueRouter from 'vue-router'
 import index from '../components/index.vue'
 import show from '../components/show/show.vue'
 import list from '../components/show/list.vue'
+import maxim from '../components/show/maxim.vue'
+import manager from '../components/manager/manager.vue'
+import article from '../components/articles/article.vue'
 
 const routes = [
 	{
@@ -11,23 +14,35 @@ const routes = [
 		},
 		children: [
 			{
-				path: '/show',
+				path: 'show',
 				components: {
 					default: show
 				},
 				children: [
 					{
-						path: '/list',
+						path: 'list',
 						components: {
 							default: list
+						}
+					},
+					{
+						path: 'maxim',
+						components: {
+							default: maxim
 						}
 					}
 				]
 			},
 			{
-				path: '/articles',
+				path: 'manager',
 				components: {
-					default: list
+					default: manager
+				}
+			},
+			{
+				path: 'article',
+				components: {
+					article
 				}
 			}
 		]
