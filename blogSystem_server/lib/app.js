@@ -7,6 +7,7 @@ import manager from './router/manager';
 let app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));  
+
 //设置跨域
 app.all('*', (req, res, next) => {
 	res.header('Access-Control-Allow-Origin', '*');

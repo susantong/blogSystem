@@ -1,6 +1,6 @@
 <template>
 	<div class="header">
-		<div class="menu" @mouseover="show">MENU</div>
+		<div class="menu">MENU</div>
 	</div>
 </template>
 
@@ -11,15 +11,14 @@
 		name: 'myHeader',
 		data() {
 			return {
-				data: {
-					msg: false
-				}
 			}
 		},
 		methods: {
 			show() {
-				this.data.msg = !this.data.msg;
-				this.$root.eventHub.$emit('change', this.data.msg);
+				this.$root.eventHub.$emit('shows', true);
+			},
+			hide() {
+				this.$root.eventHub.$emit('shows', false);
 			}
 		}
 	}

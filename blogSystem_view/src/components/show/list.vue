@@ -149,7 +149,6 @@ import getCGI from '../../getCGI/list';
 			height: 180px;
 			overflow: hidden;
 			margin-bottom: 30px;
-			cursor: pointer;
 			.image {
 				float: left;
 				width: 20%;

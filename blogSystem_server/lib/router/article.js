@@ -1,4 +1,5 @@
 import express from 'express';
+import uploadImg from '../manager/upload';
 
 import {postArticles, findAll, findById, findByType, updateArticles,
 	deleteArticles} from '../manager/article';
@@ -12,13 +13,17 @@ router.use('/postArticles', (req, res) => {
 		title: req.body.title,
 		contents: req.body.contents
 	};
-	//console.log(req.body.contents);
 	postArticles(articleData, req, res);
 });
 
 //查找所有文章
 router.use('/findAll', (req, res) => {
 	findAll(req, res);
+});
+
+//上传图片
+router.use('/upload', (req, res) => {
+	uploadImg(req, res);
 });
 
 //根据id查找文章

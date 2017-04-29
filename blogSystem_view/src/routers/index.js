@@ -42,7 +42,7 @@ const routes = [
 			{
 				path: 'article',
 				components: {
-					article
+					default: article
 				}
 			}
 		]

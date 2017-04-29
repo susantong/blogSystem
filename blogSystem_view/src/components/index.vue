@@ -1,7 +1,9 @@
 <template>
 	<div class="index">
-		<myHeader class="myheader"></myHeader>
-		<myAside class="myaside" v-show="data.msg"></myAside>
+		<div class="myheader">
+		</div>
+		<p class="menu">MENU</p>
+		<myAside class="myaside"></myAside>
     	<div class="content-wrap">
     		<div class="content">
     			<router-view></router-view>
@@ -17,7 +19,6 @@ import myAside from './public/myAside.vue';
 	export default {
 		name: 'index',
 		components: {
-    		myHeader: myHeader,
     		myAside: myAside
   		},
 		data() {
@@ -27,11 +28,6 @@ import myAside from './public/myAside.vue';
 				}
 			}
 		},
-		created() {
-			this.$root.eventHub.$on('change', (msg) => {
-				this.data.msg = msg;
-			});
-		},
 		methods: {
 		}
 	}
@@ -39,11 +35,33 @@ import myAside from './public/myAside.vue';
 
 <style lang="scss">
 	.index {
+		@keyframes mime {
+			0% {left: -200px;}
+			50% {left: -80px;}
+			100% {left: 0}
+		}
 		.myheader {
 			position: fixed;
 			top: 0;
 			left: 0;
 			z-index: 999;
+			width: 100%;
+			height: 50px;
+			background-color: #eee;
+		}
+		.menu {
+			position: fixed;
+			left: 20px;
+			top: 10px;
+			z-index: 999;
+			font-size: 24px;
+			color: #f6a90e;
+			cursor: pointer;
+			height: 40px;
+		}
+		.menu:hover+.myaside {
+			left: 0;
+			transition: left 2s;
 		}
 		.header-wrap {
 			overflow: hidden;
@@ -51,9 +69,14 @@ import myAside from './public/myAside.vue';
 		}
 		.myaside {
 			position: fixed;
-			left: 0;
+			left: -200px;
 			top: 50px;
 			z-index: 999;
+			display: block;
+			transition: left 1s;
+		}
+		.myaside:hover {
+			left: 0;
 		}
 		.content-wrap {
 			position: absolute;
@@ -62,7 +85,7 @@ import myAside from './public/myAside.vue';
 		}
 	    .content {
 	      width: 60%;
-	      margin: 0 auto;
+	      margin: 0 auto;	      
 	    }
 	}
 </style>

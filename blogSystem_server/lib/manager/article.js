@@ -9,6 +9,7 @@ let postArticles = (articleData, req, res) => {
 	let articles = new article({
 		author: 'susantong',
 		time: new Date(),
+		headImg: articleData.headImg,
 		type: articleData.type,
 		title: articleData.title,
 		contents: articleData.contents
@@ -90,8 +91,8 @@ let deleteArticles = (id, req, res) => {
 //根据id修改文章
 let updateArticles = (articleData, req, res) => {
 	article.update({_id: articleData.id}, 
-		{$set: {type: articleData.type, title: articleData.title,
-			contents: articleData.contents}}, (err) => {
+		{$set: {type: articleData.type, title: articleData.title, 
+			headImg: articleData.headImg, contents: articleData.contents}}, (err) => {
 				if (err) {
 					console.log('修改失败');
 					responseJson(res, false, 'update failed');

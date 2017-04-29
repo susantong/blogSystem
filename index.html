@@ -31,6 +31,17 @@
 		<textarea id="tents"></textarea>
 		<button id="update">修改</button>
 	</div>
+	<form id="form1" name="form1">
+		<input type="file" name="upload" id="upload">请选择上传文件<br />
+	</form>
+	<button type="button" id="sub_img">提交</button><br />
+
+	<form method="post" action="http://localhost:3001/upload" enctype="multipart/form-data">
+		<input type="file" name="upload" multiple="multiple">
+		<button type="submit">上传</button>
+	</form>
+
+	<img src="" id="img">
 
 	<script type="text/javascript" src="./jquery.js"></script>
 	<script type="text/javascript">
@@ -72,6 +83,28 @@
 			});
 		});
 
+		$('#sub_img').on('click', function () {
+			//console.log(document.getElementById('file').files[0]);
+			//console.log($('#file')[0].files[0]);
+			var formdata = new FormData();
+			formdata.append('upload', $('#upload')[0].files[0]);
+			$.ajax({
+				url: 'http://localhost:3001/manager/article/upload',
+				method: 'POST',
+				data: formdata,
+				contentType: false,
+				cache: false,
+				processData: false,
+				success: function (data) {
+					console.log(data);
+					document.getElementById('img').src = data.result;
+				},
+				error: function () {
+					console.log('failed');
+				}
+			});
+		});
+
 		$('#update').on('click', function () {
 			//console.log(res.result[1]._id);
 			$.ajax({
@@ -80,7 +113,7 @@
 				data: {
 					id: res.result[1]._id,
 					type: 'css',
-					title: $('#tit').val(),
+					title: 'xxx',
 					contents: $('#tents').val()
 				},
 				success: function (data) {

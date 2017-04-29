@@ -36,7 +36,6 @@
 <style lang="scss">
 	.show {
 		width: 100%;
-		overflow: hidden;
 		.btn {
 			width: 100%;
 		}
