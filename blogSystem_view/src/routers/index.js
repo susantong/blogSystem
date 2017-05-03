@@ -5,6 +5,9 @@ import list from '../components/show/list.vue'
 import maxim from '../components/show/maxim.vue'
 import manager from '../components/manager/manager.vue'
 import article from '../components/articles/article.vue'
+import editArticle from '../components/edit/editArticle.vue'
+import cutImg from '../components/edit/cutImg.vue'
+import editMaxim from '../components/edit/editMaxim.vue'
 
 const routes = [
 	{
@@ -12,12 +15,14 @@ const routes = [
 		components: {
 			default: index
 		},
+		redirect: '/show/list',
 		children: [
 			{
 				path: 'show',
 				components: {
 					default: show
 				},
+				redirect: '/show/list',
 				children: [
 					{
 						path: 'list',
@@ -43,6 +48,18 @@ const routes = [
 				path: 'article',
 				components: {
 					default: article
+				}
+			},
+			{
+				path: 'editArticle',
+				components: {
+					default: editArticle
+				}
+			},
+			{
+				path: 'editMaxim',
+				components: {
+					default: editMaxim
 				}
 			}
 		]

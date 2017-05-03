@@ -10,11 +10,11 @@
 				<i style="background: url(/src/assets/images/icon.jpg) 0 -26px no-repeat;"></i>
 				<span>展示</span>
 			</router-link>
-			<router-link to="/article" tag="li">
+			<router-link to="/editArticle" tag="li">
 				<i style="background: url(/src/assets/images/icon.jpg) 0 0 no-repeat;"></i>
 				<span>新文章</span>
 			</router-link>
-			<router-link to="/show" tag="li">
+			<router-link to="/editMaxim" tag="li">
 				<i style="background: url(/src/assets/images/icon.jpg) 0 -78px no-repeat;"></i>
 				<span>新箴言</span>
 			</router-link>
@@ -80,7 +80,6 @@
 			}
 
 			li:hover {
-				background: #444;
 				color: #fff;
 			}
 

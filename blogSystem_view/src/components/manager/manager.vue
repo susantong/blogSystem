@@ -29,6 +29,8 @@ getCGI(data);
 	.manager {
 		width: 80%;
 		h2 {
+			font-size: 24px;
+			color: #f6a90e;
 			margin-bottom: 30px;
 		}
 
@@ -51,9 +53,11 @@ getCGI(data);
 			width: 70%;
 			overflow: hidden;
 			text-overflow: ellipsis;
+			vertical-align: middle;
 		}
 		.list-trans {
 			margin-left: 10px;
+			vertical-align: middle;
 		}
 	}
 </style>

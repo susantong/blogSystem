@@ -151,7 +151,7 @@ import getCGI from '../../getCGI/list';
 			margin-bottom: 30px;
 			.image {
 				float: left;
-				width: 20%;
+				width: 144px;
 				height: 80%;
 				margin-left: 5%;
 				border: 1px solid #ccc;
@@ -161,7 +161,7 @@ import getCGI from '../../getCGI/list';
 			}
 			.article {
 				float: left;
-				width: 64%;
+				width: 68%;
 				height: 144px;
 				margin-left: 5%;
 				top: 50%;

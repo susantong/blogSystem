@@ -6,9 +6,10 @@ import manager from './router/manager';
 
 let app = express();
 
-app.use(bodyParser.urlencoded({ extended: false }));  
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true })); 
 
-//设置跨域
+//设置跨域 
 app.all('*', (req, res, next) => {
 	res.header('Access-Control-Allow-Origin', '*');
 	res.header("Access-Control-Allow-Headers", "X-Requested-With");  

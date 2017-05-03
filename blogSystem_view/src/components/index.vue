@@ -44,7 +44,7 @@ import myAside from './public/myAside.vue';
 			position: fixed;
 			top: 0;
 			left: 0;
-			z-index: 999;
+			z-index: 10;
 			width: 100%;
 			height: 50px;
 			background-color: #eee;
@@ -53,7 +53,7 @@ import myAside from './public/myAside.vue';
 			position: fixed;
 			left: 20px;
 			top: 10px;
-			z-index: 999;
+			z-index: 10;
 			font-size: 24px;
 			color: #f6a90e;
 			cursor: pointer;
@@ -61,7 +61,7 @@ import myAside from './public/myAside.vue';
 		}
 		.menu:hover+.myaside {
 			left: 0;
-			transition: left 2s;
+			transition: left 1.5s;
 		}
 		.header-wrap {
 			overflow: hidden;
