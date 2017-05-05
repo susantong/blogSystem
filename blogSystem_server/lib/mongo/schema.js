@@ -2,8 +2,8 @@ import mongoose from './mongoose.js';
 //用于数据模板的发布
 let articleSchema = new mongoose.Schema({
 	author: String,
-	headImg: String,
-	time: Date,
+	headImg: String,	
+	time: String,
 	type: String,
 	title: String,
 	contents: String,

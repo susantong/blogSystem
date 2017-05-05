@@ -1,6 +1,7 @@
 import express from 'express';
 
 import article from './article';
+import maxim from './maxim';
 
 const router = express.Router();
 
@@ -14,5 +15,6 @@ router.use('/login', (req, res) => {
 });
 
 router.use('/article', article);
+router.use('/maxim', maxim);
 
 export default router;

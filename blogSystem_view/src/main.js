@@ -6,6 +6,7 @@ import './assets/lib/reset.css'
 import './assets/js/common.js'
 import $ from 'jquery'
 
+
 Vue.use(vueRouter);
 
 import  Router from './routers/index.js'

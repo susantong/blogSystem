@@ -8,9 +8,11 @@ const router = express.Router();
 
 //发表文章
 router.use('/postArticles', (req, res) => {
+	//console.log(typeof req.body);
 	let articleData = {
 		type: req.body.type,
 		title: req.body.title,
+		headImg: req.body.upload,
 		contents: req.body.contents
 	};
 	postArticles(articleData, req, res);

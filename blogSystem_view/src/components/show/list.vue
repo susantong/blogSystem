@@ -1,37 +1,37 @@
 <template>
-	<div class="list">
+	<div class="list" v-show="data.show">
 		<div class="list-hot">
 			<div class="list-hot-one">
 				<img class="one-img" src=""/>
 				<div class="one-text">
 					<div class="text-border">
-						<h2>{{data.list[0].title}}</h2>
-						<p>{{data.list[0].contents}}</p>
+						<h2>{{data.list.title}}</h2>
+						<p>{{data.contents}}</p>
 					</div>
 				</div>
 			</div>
 			<div class="list-hot-two">
 				<div class="two-text">
 					<div class="text">
-						<h2>{{data.list[0].title}}</h2>
-						<p>{{data.list[0].contents}}</p>
+						<h2>{{data.list.title}}</h2>
+						<p>{{data.list.contents}}</p>
 					</div>
 				</div>
 				<img class="two-img" src="">
 			</div>
 		</div>
-		<div v-for="list in data.list">
+		<div>
 			<div class="lists">
 				<div class="image"></div>
 				<div class="article">
-					<h2 class="article-tit" tag="h2">{{list.title}}</h2>
+					<h2 class="article-tit" tag="h2">{{data.list.title}}</h2>
 					<div class="article-info">
 						<span></span>
-						<span>{{list.author}}</span>
-						<span>发布时间：{{list.time}}</span>
-						<span>分类：{{list.type}}</span>
+						<span>{{data.list.author}}</span>
+						<span>发布时间：{{data.list.time}}</span>
+						<span>分类：{{data.list.type}}</span>
 					</div>
-					<p class="article-content">{{list.contents}}</p>
+					<p class="article-content">{{data.list.contents}}</p>
 				</div>
 			</div>
 			<div class="list-detail">
@@ -44,14 +44,21 @@
 <script>
 import getCGI from '../../getCGI/list';
 	let data = {
-		list: []
+		list: '',
+		show: false
 	};
-	getCGI(data);
+	
 	export default {
 		name: 'list',
 		data() {
 			return {
 				data: data
+			};
+		},
+		mounted () {
+			getCGI(data);
+			if (data.list) {
+				this.data.show = true;
 			}
 		}
 	}

@@ -1,15 +1,25 @@
 import mongoose from '../mongo/mongoose';
 import {article} from '../mongo/schema';
 import responseJson from '../responseJson';
+import uploadImg from './upload';
+import getTimes from './time';
 
 //文章的处理
 
 //发表文章
 let postArticles = (articleData, req, res) => {
+	console.log(articleData.headImg.length);
+	let imgPath = uploadImg(articleData.headImg, req, res);
+	//console.log(imgPath);
+	console.log(typeof getTimes());
+	if (!imgPath) {
+		responseJson(res, false, 'the image deal failed');
+		return;
+	}
 	let articles = new article({
 		author: 'susantong',
-		time: new Date(),
-		headImg: articleData.headImg,
+		time: getTimes(),
+		headImg: imgPath,
 		type: articleData.type,
 		title: articleData.title,
 		contents: articleData.contents

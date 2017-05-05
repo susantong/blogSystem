@@ -1,28 +1,26 @@
 <template>
 	<div class="editMaxim">
-		<cutImg v-show="data.show" v-on:toShow="showIt"></cutImg>
 		<h2>新箴言</h2>
-		<label>上传图片：</label>
-		<div class="uploadImg">
-			<input type="file" name="upload" id="upload"><br /><br />	
-			<button type="button" class="cut" @click="upload">剪裁</button>
-		</div>
-		<label>箴言内容</label>
+		<cutPictures></cutPictures>
+		<label class="maxim-tit">箴言内容</label>
 		<div class="maxim-content">
-			<textarea placeholder="输入箴言内容..."></textarea>
+			<textarea placeholder="输入箴言内容..." id="content"></textarea>
 		</div>
 		<div class="submits">
-			<button type="button">提交</button>
+			<button type="button" @click="save">提交</button>
+			<button type="button">取消</button>
 		</div>
 	</div>
 </template>
 
 <script>
-import cutImg from './cutImg.vue'
+import cutPictures from './cutPictures.vue'
+import axios from 'axios'
+import qs from 'qs'
 	export default {
 		name: 'editMaxim',
 		components: {
-			cutImg: cutImg
+			cutPictures: cutPictures
 		},
 		data() {
 			return {
@@ -33,16 +31,24 @@ import cutImg from './cutImg.vue'
 			}
 		},
 		methods: {
-			upload(e) {
-				//console.log(document.getElementById('upload').files[0]);
-				this.data.imgSrc = window.URL.createObjectURL(document.getElementById('upload').files[0]);
-				console.log(this.data.imgSrc);
-				this.data.show = true;
-				this.$root.eventHub.$emit('src', this.data.imgSrc);
-			},
-			showIt(value) {
-				//console.log('show');
-				this.data.show = value;
+			save() {
+				let data = qs.stringify({
+					upload: $('#preview')[0].src,
+					text: $('#content').val()
+				});
+
+				axios({
+					method: 'post',
+					url: 'http://localhost:3001/manager/maxim/postMaxims',
+					data: data
+				})
+				.then((response) => {
+					alert('发表箴言成功');
+					location.href = 'http://localhost:8080';
+				})
+				.catch((err) => {
+					alert('发表失败');
+				});
 			}
 		}
 	}
@@ -58,9 +64,9 @@ import cutImg from './cutImg.vue'
 			margin-bottom: 30px;
 		}
 
-		.uploadImg {
-			margin: 20px 0;
-			width: 100%;
+		.maxim-tit {
+			margin-top: 20px;
+			display: inline-block;
 		}
 
 		.maxim-content {
