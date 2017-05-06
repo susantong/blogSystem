@@ -1,41 +1,41 @@
 <template>
-	<div class="list" v-show="data.show">
+	<div class="list">
 		<div class="list-hot">
 			<div class="list-hot-one">
-				<img class="one-img" src=""/>
+				<img class="one-img" :src="data.list[0].headImg">
 				<div class="one-text">
 					<div class="text-border">
-						<h2>{{data.list.title}}</h2>
-						<p>{{data.contents}}</p>
+						<router-link :to="{path: '/article', query: {id: data.list[0]._id}}" tag="h2">{{data.list[0].title}}</router-link>
+						<p>{{data.list[0].contents}}</p>
 					</div>
 				</div>
 			</div>
 			<div class="list-hot-two">
 				<div class="two-text">
 					<div class="text">
-						<h2>{{data.list.title}}</h2>
-						<p>{{data.list.contents}}</p>
+						<router-link :to="{path: '/article', query: {id: data.list[1]._id}}" tag="h2">{{data.list[1].title}}</router-link>
+						<p>{{data.list[1].contents}}</p>
 					</div>
 				</div>
-				<img class="two-img" src="">
+				<img class="two-img" :src="data.list[1].headImg">
 			</div>
 		</div>
-		<div>
+		<div v-for="list in data.list">
 			<div class="lists">
-				<div class="image"></div>
+				<div class="image"><img :src="list.headImg"></div>
 				<div class="article">
-					<h2 class="article-tit" tag="h2">{{data.list.title}}</h2>
+					<h2 class="article-tit" tag="h2">{{list.title}}</h2>
 					<div class="article-info">
 						<span></span>
-						<span>{{data.list.author}}</span>
-						<span>发布时间：{{data.list.time}}</span>
-						<span>分类：{{data.list.type}}</span>
+						<span>{{list.author}}</span>
+						<span>发布时间：{{list.time}}</span>
+						<span>分类：{{list.type}}</span>
 					</div>
-					<p class="article-content">{{data.list.contents}}</p>
+					<p class="article-content">{{list.contents}}</p>
 				</div>
 			</div>
 			<div class="list-detail">
-				<router-link to="/article" class="detail">立即查看</router-link>
+				<router-link :to="{path: '/article', query: {id: list._id}}" tag="button" class="detail">立即查看</router-link>
 			</div>
 		</div>
 	</div>
@@ -43,23 +43,20 @@
 
 <script>
 import getCGI from '../../getCGI/list';
-	let data = {
-		list: '',
-		show: false
-	};
-	
+let data = {
+	list: []
+};
 	export default {
 		name: 'list',
 		data() {
 			return {
 				data: data
-			};
+			}
 		},
 		mounted () {
 			getCGI(data);
-			if (data.list) {
-				this.data.show = true;
-			}
+			//data.list = data.list.slice(2);
+			this.data = data;
 		}
 	}
 </script>
@@ -143,10 +140,12 @@ import getCGI from '../../getCGI/list';
 			display: inline-block;
 			background-color: #f6a90e;
 			color: #fff;
-			width: 10%;
-			padding: 1% 1.4%;
+			width: 12%;
+			//padding: 1% 1.4%;
 			border-radius: 5px;
 			text-align: center;
+			height: 36px;
+			line-height: 36px;
 		}
 		}
 		.lists {

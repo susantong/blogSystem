@@ -1,12 +1,12 @@
 <template>
 	<div class="articles">
-		<h2>{{data.list.title}}</h2>
+		<h2>{{data.list[0].title}}</h2>
 		<p class="artcle-tit">
-			<span>发布时间: {{data.list.time}}</span>
-			<span>编辑: {{data.list.editor}}</span>
-			<span>阅读量: {{data.list.watchNum}}</span>
+			<span>发布时间: {{data.list[0].time}}</span>
+			<span>编辑: {{data.list[0].author}}</span>
+			<span>阅读量: {{data.list[0].watchNum}}</span>
 		</p>
-		<p class="artcle-text">{{data.list.contents}}</p>
+		<p class="artcle-text">{{data.list[0].contents}}</p>
 	</div>
 </template>
 
@@ -15,7 +15,7 @@ import getCGI from '../../getCGI/article'
 let data = {
 	list: {}
 };
-getCGI(data);
+let id;
 
 	export default {
 		name: 'article',
@@ -23,6 +23,14 @@ getCGI(data);
 			return {
 				data: data
 			}
+		},
+		created() {
+			id = this.$route.query.id;
+
+		},
+		mounted() {
+			getCGI(data, id);
+			this.data = data;
 		}
 	}
 </script>

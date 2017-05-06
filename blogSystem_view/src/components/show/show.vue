@@ -9,6 +9,7 @@
 </template>
 
 <script>
+import getCGI from '../../getCGI/list';
 	let data = {
 		isActive1: true,
 		isActive2: false
@@ -29,6 +30,9 @@
 				this.data.isActive1 = false;
 				this.data.isActive2 = true;
 			}
+		},
+		mounted() {
+			this.$root.eventHub.$emit('listData', getCGI())
 		}
 	}
 </script>

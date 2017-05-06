@@ -7,7 +7,8 @@ export default function (data) {
 		url: 'http://localhost:3001/manager/article/findAll',
 	})
 	.then((response) => {
-		data.list = response.data.result[0];
+		data.list = response.data.result;
+		//console.log(response.data.result[0].headImg);
 	})
 	.catch((err) => {
 		console.log(err);

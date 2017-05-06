@@ -1,10 +1,10 @@
 <template>
 	<div class="maxim">
 		<div class="maxims" v-for="list in data.list">
-			<div class="maxim-img"></div>
+			<div class="maxim-img"><img :src="list.image"></div>
 			<div class="maxim-text">
 				{{list.text}}
-				<span>{{list.time}}</span>
+				<span>{{list.date}}</span>
 			</div>
 		</div>
 	</div>
@@ -15,13 +15,17 @@
 	let data = {
 		list: []
 	};
-	getCGI(data);
+
 	export default {
 		name: 'maxim',
 		data() {
 			return {
 				data: data
 			}
+		},
+		mounted() {
+			getCGI(data);
+			this.data = data;
 		}
 	}
 </script>
@@ -47,6 +51,11 @@
 				border-radius: 50%;
 				background: red;
 				float: left;
+				img {
+					width: 100%;
+					height: 100%;
+					border-radius: 50%;
+				}
 			}
 			.maxim-text {
 				float: left;

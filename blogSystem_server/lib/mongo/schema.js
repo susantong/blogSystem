@@ -14,7 +14,7 @@ let articleSchema = new mongoose.Schema({
 let maximSchema = new mongoose.Schema({
 	image: String,
 	text: String,
-	date: Date
+	date: String
 });
 
 

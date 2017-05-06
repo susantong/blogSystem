@@ -1,5 +1,5 @@
 import express from 'express';
-import {postMaxims} from '../manager/maxim';
+import {postMaxims, findAll} from '../manager/maxim';
 
 const router = express.Router();
 
@@ -10,6 +10,11 @@ router.use('/postMaxims', (req, res) => {
 		text: req.body.text
 	};
 	postMaxims(maximData, req, res);
+});
+
+//查找所有箴言
+router.use('/findAll', (req, res) => {
+	findAll(req, res);
 });
 
 export default router;

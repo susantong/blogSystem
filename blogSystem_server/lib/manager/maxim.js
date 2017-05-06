@@ -28,4 +28,17 @@ let postMaxims = (maximData, req, res) => {
 	});
 };
 
-export {postMaxims};
+//查找所有箴言
+let findAll = (req, res) => {
+	maxim.find({}, (err, doc) => {
+		if (err) {
+			console.log('查询出错');
+			responseJson(res, false, 'find failed');
+			return;
+		}
+		console.log('查找成功');
+		responseJson(res, true, doc);
+	});
+};
+
+export {postMaxims, findAll};

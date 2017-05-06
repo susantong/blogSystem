@@ -8,6 +8,8 @@ import article from '../components/articles/article.vue'
 import editArticle from '../components/edit/editArticle.vue'
 import cutImg from '../components/edit/cutImg.vue'
 import editMaxim from '../components/edit/editMaxim.vue'
+import managerArticle from '../components/manager/managerArticle.vue'
+import managerMaxim from '../components/manager/managerMaxim.vue'
 
 const routes = [
 	{
@@ -28,7 +30,8 @@ const routes = [
 						path: 'list',
 						components: {
 							default: list
-						}
+						},
+						waitForData: true
 					},
 					{
 						path: 'maxim',
@@ -42,7 +45,21 @@ const routes = [
 				path: 'manager',
 				components: {
 					default: manager
-				}
+				},
+				children: [
+					{
+						path: 'managerArticle',
+						components: {
+							default: managerArticle
+						}
+					},
+					{
+						path: 'managerMaxim',
+						components: {
+							default: managerMaxim
+						}
+					}
+				]
 			},
 			{
 				path: 'article',

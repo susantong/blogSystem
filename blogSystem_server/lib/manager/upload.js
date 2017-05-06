@@ -11,16 +11,18 @@ let uploadImg = (imgResource, req, res) => {
 	//console.log(base64Data + '111');
 	let dataBuffer = new Buffer(base64Data, 'base64');
 	//console.log(dataBuffer);
-	let path = 'e://blogSystem/blogSystem_server/public/images/' + new Date().getTime() +'.png';
+	let date = new Date().getTime();
+	let path1 = 'E://blogSystem/blogSystem_server/public/images/' + date + '.png';
+	let path2 = 'http://localhost:3001/images/' + date +'.png';
 	//console.log(path);
-	fs.writeFile(path, dataBuffer, (err) => {
+	fs.writeFile(path1, dataBuffer, (err) => {
 		if (err) {
 			console.log(err);
 			return ;
 		} 
 	});
 	//console.log(path);
-	return path;
+	return path2;
 }
 
 function rename(old, _new, code, bid) {
