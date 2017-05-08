@@ -1,10 +1,10 @@
 <template>
 	<div class="editMaxim">
 		<h2>新箴言</h2>
-		<cutPictures></cutPictures>
+		<cutPictures :msg="data.list[0].image" ref="cutPictures"></cutPictures>
 		<label class="maxim-tit">箴言内容</label>
 		<div class="maxim-content">
-			<textarea placeholder="输入箴言内容..." id="content"></textarea>
+			<textarea placeholder="输入箴言内容..." v-model="data.list[0].text"></textarea>
 		</div>
 		<div class="submits">
 			<button type="button" @click="save">提交</button>
@@ -15,8 +15,17 @@
 
 <script>
 import cutPictures from './cutPictures.vue'
+import getCGI from '../../getCGI/findMaxim'
 import axios from 'axios'
 import qs from 'qs'
+
+let data = {
+	imgSrc: '',
+	id: '',
+	show: false,
+	list: [{image: '', text: ''}]
+}
+
 	export default {
 		name: 'editMaxim',
 		components: {
@@ -24,17 +33,24 @@ import qs from 'qs'
 		},
 		data() {
 			return {
-				data: {
-					imgSrc: '',
-					show: false
-				}
+				data: data
+			}
+		},
+		mounted() {
+			let id = this.$route.query.id;
+			//console.log(id);
+			if (id) {
+				this.id = id;
+				getCGI(data, id);
+				this.data.list = data.list;
+				console.log(this.data.list[0].text);
 			}
 		},
 		methods: {
 			save() {
 				let data = qs.stringify({
-					upload: $('#preview')[0].src,
-					text: $('#content').val()
+					upload: this.$refs.cutPictures.$refs.headImg.src,
+					text: this.data.list[0].contents
 				});
 
 				axios({

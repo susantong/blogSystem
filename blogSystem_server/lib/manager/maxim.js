@@ -41,4 +41,35 @@ let findAll = (req, res) => {
 	});
 };
 
-export {postMaxims, findAll};
+//根据ID删除箴言
+let deleteMaxims = (id, req, res) => {
+	maxim.remove({_id: id}, (err) => {
+		if (err) {
+			console.log('删除失败');
+			responseJson(res, false, 'delete failed');
+			return;
+		}
+		console.log('删除成功');
+		responseJson(res, true, 'delete success');
+	});
+};
+
+//根据id查找对应箴言
+let findById = (id, req, res) => {
+	maxim.find({_id: id}, (err, doc) => {
+		if (err) {
+			console.log('查询出错');
+			responseJson(res, false, 'find by type failed');
+			return;
+		}
+		if (!doc.length) {
+			console.log('查找失败');
+			responseJson(res, false, 'find by id failed');
+			return;
+		}
+		console.log('查找成功');
+		responseJson(res, true, doc);
+	});
+};
+
+export {postMaxims, findAll, deleteMaxims, findById};

@@ -13,7 +13,13 @@
 <script>
 import getCGI from '../../getCGI/article'
 let data = {
-	list: {}
+	list: [{
+		title: '加载中',
+		time: '加载中',
+		author: '加载中',
+		watchNum: '加载中',
+		contents: '加载中'
+	}]
 };
 let id;
 
@@ -24,11 +30,8 @@ let id;
 				data: data
 			}
 		},
-		created() {
-			id = this.$route.query.id;
-
-		},
 		mounted() {
+			id = this.$route.query.id;
 			getCGI(data, id);
 			this.data = data;
 		}

@@ -3,27 +3,27 @@
 		<h2>新文章</h2>
 		<label>文章标题:</label>
 		<div class="article-title">
-			<input type="text" placeholder="请输入标题..." id="title">
+			<input type="text" placeholder="请输入标题..." v-model="data.list[0].title">
 		</div>
-		<label>文章类型:</label><br />
+		<label>已有文章类型:</label><br />
 		<select class="article-group">
 			<option>html</option>
 			<option>css</option>
 			<option>js</option>
 		</select><br />
-		<label>自定义文章类型:</label><br />
+		<label>文章类型:</label><br />
 		<div class="article-title">
-			<input type="text" placeholder="请输入自定义类型..." id="article-title">
+			<input type="text" placeholder="请输入自定义类型..."  v-model="data.list[0].type">
 		</div>
-		<cutPictures></cutPictures>
+		<cutPictures :msg="data.list[0].headImg" ref="cutPictures"></cutPictures>
 		<div class="main">
 			<label>文章内容:</label>
 			<div class="article-content">
-				<textarea placeholder="请输入内容..." id="contents"></textarea>
+				<textarea placeholder="请输入内容..." v-model="data.list[0].contents"></textarea>
 			</div>
 		</div>
 		<div class="submits">
-			<button type="button" @click="submits">提交</button>
+			<button type="button" @click="submits">{{data.button}}</button>
 			<button type="button">取消</button>
 		</div>
 	</div>
@@ -33,6 +33,15 @@
 import cutPictures from './cutPictures.vue'
 import axios from 'axios'
 import qs from 'qs'
+import getCGI from '../../getCGI/article'
+let data = {
+	imgSrc: '',
+    id: '',
+	button: '提交',
+	click: 'submits',
+	show: false,
+	list: [{title: '', type: '', contents: '', headImg: ''}]
+};
 	export default {
 		name: 'editArticle',
 		components: {
@@ -40,32 +49,60 @@ import qs from 'qs'
 		},
 		data() {
 			return { 
-				data: {
-					imgSrc: '',
-					show: false
-				}
+				data: data
 			}
 		},
+		mounted() {
+			this.setData();
+			let id= this.$route.query.id;
+			if (id) {
+				this.id = id;
+				this.button = '修改';
+				this.click = 'edits';
+				getCGI(data, id);
+				this.data.list = data.list;
+			}
+		},
+		watch: {
+			'$route': 'setData'
+		},
 		methods: {
+			setData() {
+				if (!this.$route.query.id) {
+					this.data = {
+						imgSrc: '',
+					    id: '',
+						button: '提交',
+						click: 'submits',
+						show: false,
+						list: [{title: '', type: '', contents: '', headImg: ''}]
+					}
+				} else {
+					this.id = this.$route.query.id;
+					this.button = '修改';
+					this.click = 'edits';
+					getCGI(data, this.$route.query.id);
+					this.data.list = data.list;
+					console.log(this.data.list[0].title);
+				}
+			},
 			submits() {
 				let types = '';
-				let optionText = $('.article-group').find('option:selected').text();
-				let text = $('#article-title').val();
-				if (text) {
-					let option = document.createElement('option');
-					option.innerHTML = optionText;
-					$('.article-group').append(option);
-					types = text;
+				if (this.data.list[0].type) {
+					types = this.data.list[0].type;
 				} else {
-					types = optionText;
+					alert('请定义文章类型');
+					return;
 				}
+				this.data.list[0].type = types;
 				//console.log(types);
 				//传参序列化
+				//console.log(this.$refs.cutPictures.$refs.headImg);
 				let data = qs.stringify({
-						type: types,
-						upload: $('#preview')[0].src,
-						title:  $('#title').val(),
-						contents: $('#contents').val()
+						type: this.data.list[0].type,
+						upload: this.$refs.cutPictures.$refs.headImg.src,
+						title:  this.data.list[0].title,
+						contents: this.data.list[0].contents
 					});
 				axios({
 					method: 'post',
@@ -76,12 +113,15 @@ import qs from 'qs'
 					//console.log(response.data);
 					if (response.data.success) {
 						alert('发表成功！');
-						location.href = "http://localhost:8080";
+						//location.href = "http://localhost:8080";
 					}
 				})
 				.catch(function (err) {
 					alert('输入信息有误，请修改！');
 				});
+			},
+			edits() {
+				console.log('ok');
 			}
 		}
 	}

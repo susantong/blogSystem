@@ -2,14 +2,14 @@
 	<div class="managerArticle">
 		<div class="list" v-for="list in data.list">
 			<router-link :to="{path: '/article', query: {id: data.list[0]._id}}" tag="span" class="list-tit">{{list.title}}</router-link>
-			<span class="list-trans">编辑</span>
+			<router-link :to="{path: '/editArticle', query: {id: data.list[0]._id}}" tag="span" class="list-trans">编辑</router-link>
 			<span class="list-trans" @click="delDom(list._id)">删除</span>
 		</div>
 	</div>
 </template>
 
 <script>
-import getCGI from '../../getCGI/list'
+import getCGI from '../../getCGI/manager'
 import axios from 'axios';
 import qs from 'qs';
 

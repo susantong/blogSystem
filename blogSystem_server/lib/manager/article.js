@@ -1,5 +1,5 @@
 import mongoose from '../mongo/mongoose';
-import {article} from '../mongo/schema';
+import {article, articleType} from '../mongo/schema';
 import responseJson from '../responseJson';
 import uploadImg from './upload';
 import getTimes from './time';
@@ -8,10 +8,10 @@ import getTimes from './time';
 
 //发表文章
 let postArticles = (articleData, req, res) => {
-	console.log(articleData.headImg.length);
+	//console.log(articleData.headImg.length);
 	let imgPath = uploadImg(articleData.headImg, req, res);
 	//console.log(imgPath);
-	console.log(typeof getTimes());
+	//console.log(typeof getTimes());
 	if (!imgPath) {
 		responseJson(res, false, 'the image deal failed');
 		return;
@@ -87,7 +87,7 @@ let findByType = (type, req, res) => {
 
 //根据id删除文章
 let deleteArticles = (id, req, res) => {
-	article.remove({id: id}, (err) => {
+	article.remove({_id: id}, (err) => {
 		if (err) {
 			console.log('删除失败');
 			responseJson(res, false, 'delete failed');
@@ -113,6 +113,21 @@ let updateArticles = (articleData, req, res) => {
 			});
 };
 
+//增加文章类型
+let addType = (type, req, res) => {
+	let type = new articleType({type: type});
+	type.save((err, articleType) => {
+		if (err) {
+			console.log('存储失败');
+			responseJson(res, false, 'store article type failed');
+			return;
+		}
+		console.log('存储成功');
+		responseJson(res, true, 'store article type success');
+		}
+	});
+};
+
 
 export {postArticles, findAll, findById, findByType, updateArticles,
-	deleteArticles};
+	deleteArticles, addType};

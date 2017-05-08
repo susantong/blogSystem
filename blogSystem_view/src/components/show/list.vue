@@ -1,23 +1,27 @@
 <template>
 	<div class="list">
 		<div class="list-hot">
-			<div class="list-hot-one">
-				<img class="one-img" :src="data.list[0].headImg">
+			<div class="list-hot-one" v-for="list in data.hotOne">
+				<div class="one-img">
+					<img :src="list.headImg">
+				</div>
 				<div class="one-text">
 					<div class="text-border">
-						<router-link :to="{path: '/article', query: {id: data.list[0]._id}}" tag="h2">{{data.list[0].title}}</router-link>
-						<p>{{data.list[0].contents}}</p>
+						<router-link :to="{path: '/article', query: {id: list._id}}" tag="h2">{{list.title}}</router-link>
+						<p>{{list.contents}}</p>
 					</div>
 				</div>
 			</div>
-			<div class="list-hot-two">
+			<div class="list-hot-two" v-for="list in data.hotTwo">
 				<div class="two-text">
 					<div class="text">
-						<router-link :to="{path: '/article', query: {id: data.list[1]._id}}" tag="h2">{{data.list[1].title}}</router-link>
-						<p>{{data.list[1].contents}}</p>
+						<router-link :to="{path: '/article', query: {id: list._id}}" tag="h2">{{list.title}}</router-link>
+						<p>{{list.contents}}</p>
 					</div>
 				</div>
-				<img class="two-img" :src="data.list[1].headImg">
+				<div class="two-img">
+					<img :src="list.headImg">
+				</div>
 			</div>
 		</div>
 		<div v-for="list in data.list">
@@ -44,7 +48,21 @@
 <script>
 import getCGI from '../../getCGI/list';
 let data = {
-	list: []
+	list: [{
+		headImg: require('../../assets/images/dear.jpg'),
+		contents: '数据未加载',
+		_id: '123'
+	}],
+	hotOne: [{
+		headImg: require('../../assets/images/dear.jpg'),
+		contents: '数据未加载',
+		_id: '123'
+	}],
+	hotTwo: [{
+		headImg: require('../../assets/images/dear.jpg'),
+		contents: '数据未加载',
+		_id: '123'
+	}]
 };
 	export default {
 		name: 'list',
@@ -55,7 +73,6 @@ let data = {
 		},
 		mounted () {
 			getCGI(data);
-			//data.list = data.list.slice(2);
 			this.data = data;
 		}
 	}
@@ -84,6 +101,11 @@ let data = {
 				line-height: 20px;
 			}
 
+			img {
+				width: 100%;
+				height: 100%;
+			}
+
 			.text-border, .text {
 				width: 70%;
 				height: 50%;
@@ -106,7 +128,6 @@ let data = {
 				width: 70%;
 				height: 100%;
 				float: left;
-				background-color: red;
 			}
 			.one-text {
 				float: left;
@@ -129,7 +150,6 @@ let data = {
 				width: 30%;
 				height: 100%;
 				float: left;
-				background-color: blue;
 			}
 		}
 		.list-detail {
@@ -165,6 +185,12 @@ let data = {
 				position: relative;
 				transform: translateY(-50%);
 			}
+
+			img {
+				width: 100%;
+				height: 100%;
+			}
+
 			.article {
 				float: left;
 				width: 68%;
