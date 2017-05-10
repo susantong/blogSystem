@@ -43,6 +43,8 @@
 
 	<img src="" id="img">
 
+	<button id="posts">测试</button>
+
 	<script type="text/javascript" src="./jquery.js"></script>
 	<script type="text/javascript">
 		var res;
@@ -178,6 +180,24 @@
 			$.ajax({
 				url: 'http://localhost:3001/manager/article/deleteArticles?id=' + res.result[0]._id,
 				method: 'GET',
+				success: function (data) {
+					console.log(data);
+				},
+				error: function () {
+					console.log('failed');
+				}
+			});
+		});
+
+		$('#posts').on('click', function () {
+			$.ajax({
+				url: 'http://localhost:3001/manager/article/postArticles',
+				method: 'post',
+				data: {
+					type: 'css',
+					title: 'hello',
+					contents: 'cdsjcdjvn'
+				},
 				success: function (data) {
 					console.log(data);
 				},

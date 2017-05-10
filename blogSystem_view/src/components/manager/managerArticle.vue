@@ -3,7 +3,7 @@
 		<div class="list" v-for="list in data.list">
 			<router-link :to="{path: '/article', query: {id: data.list[0]._id}}" tag="span" class="list-tit">{{list.title}}</router-link>
 			<router-link :to="{path: '/editArticle', query: {id: data.list[0]._id}}" tag="span" class="list-trans">编辑</router-link>
-			<span class="list-trans" @click="delDom(list._id)">删除</span>
+			<span class="list-trans" @click="delDom(list._id, list.headImg)">删除</span>
 		</div>
 	</div>
 </template>
@@ -28,15 +28,21 @@ let data = {
 			this.data = data;
 		},
 		methods: {
-			delDom(id) {
+			delDom(id, path) {
+				//console.log(path);
+				let data = qs.stringify({
+					id: id,
+					path: path
+				});
 				axios({
-					method: 'get',
-					url: 'http://localhost:3001/manager/article/deleteArticles?id=' + id
+					method: 'post',
+					url: 'http://localhost:3001/manager/article/deleteArticles',
+					data: data
 				})
 				.then((response) => {
 					if (response.data.success) {
 						alert('删除成功!');
-						location.href="/manager/managerArticle";
+						location.href="http://localhost:8080/manager/managerArticle";
 					}
 				})
 				.catch((err) => {

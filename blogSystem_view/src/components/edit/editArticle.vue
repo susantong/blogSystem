@@ -7,15 +7,13 @@
 		</div>
 		<label>已有文章类型:</label><br />
 		<select class="article-group">
-			<option>html</option>
-			<option>css</option>
-			<option>js</option>
+			<option v-for="option in data.type">{{option.type}}</option>
 		</select><br />
 		<label>文章类型:</label><br />
 		<div class="article-title">
-			<input type="text" placeholder="请输入自定义类型..."  v-model="data.list[0].type">
+			<input type="text" placeholder="请输入文章类型..."  v-model="data.list[0].type">
 		</div>
-		<cutPictures :msg="data.list[0].headImg" ref="cutPictures"></cutPictures>
+		<cutPictures :msg="data.list[0].headImg" ref="cutPictures" class="cutPictures"></cutPictures>
 		<div class="main">
 			<label>文章内容:</label>
 			<div class="article-content">
@@ -40,6 +38,7 @@ let data = {
 	button: '提交',
 	click: 'submits',
 	show: false,
+	type: [],
 	list: [{title: '', type: '', contents: '', headImg: ''}]
 };
 	export default {
@@ -62,6 +61,23 @@ let data = {
 				getCGI(data, id);
 				this.data.list = data.list;
 			}
+
+			axios({
+					method: 'get',
+					url: 'http://localhost:3001/manager/article/findAllType'
+				})
+				.then((response) => {
+					if (response.data.success) {
+						console.log(response.data.result);
+						this.data.type = response.data.result;
+					}
+				})
+				.catch((err) => {
+					alert('注意文章类型');
+					return;
+				});
+
+			console.log(this.data.type);
 		},
 		watch: {
 			'$route': 'setData'
@@ -72,6 +88,7 @@ let data = {
 					this.data = {
 						imgSrc: '',
 					    id: '',
+					    type: '',
 						button: '提交',
 						click: 'submits',
 						show: false,
@@ -95,9 +112,9 @@ let data = {
 					return;
 				}
 				this.data.list[0].type = types;
-				//console.log(types);
+				
 				//传参序列化
-				//console.log(this.$refs.cutPictures.$refs.headImg);
+				// console.log(this.$refs.cutPictures.$refs.headImg);
 				let data = qs.stringify({
 						type: this.data.list[0].type,
 						upload: this.$refs.cutPictures.$refs.headImg.src,
@@ -113,11 +130,12 @@ let data = {
 					//console.log(response.data);
 					if (response.data.success) {
 						alert('发表成功！');
-						//location.href = "http://localhost:8080";
+						this.$router.push('/editArticle');
 					}
 				})
 				.catch(function (err) {
 					alert('输入信息有误，请修改！');
+					return;
 				});
 			},
 			edits() {
@@ -171,6 +189,10 @@ let data = {
 
 		.article-group {
 			margin: 20px 0;
+		}
+
+		.cutPictures {
+			margin-bottom: 20px;
 		}
 
 		.main {

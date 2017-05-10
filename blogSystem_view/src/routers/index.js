@@ -10,6 +10,7 @@ import cutImg from '../components/edit/cutImg.vue'
 import editMaxim from '../components/edit/editMaxim.vue'
 import managerArticle from '../components/manager/managerArticle.vue'
 import managerMaxim from '../components/manager/managerMaxim.vue'
+import classify from '../components/articles/classify.vue'
 
 const routes = [
 	{
@@ -17,7 +18,7 @@ const routes = [
 		components: {
 			default: index
 		},
-		redirect: '/show/list',
+		//redirect: '/show/list',
 		children: [
 			{
 				path: 'show',
@@ -46,6 +47,7 @@ const routes = [
 				components: {
 					default: manager
 				},
+				redirect: '/manager/managerArticle',
 				children: [
 					{
 						path: 'managerArticle',
@@ -77,6 +79,12 @@ const routes = [
 				path: 'editMaxim',
 				components: {
 					default: editMaxim
+				}
+			},
+			{
+				path: 'classify',
+				components: {
+					default: classify
 				}
 			}
 		]

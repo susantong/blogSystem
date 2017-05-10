@@ -2,7 +2,7 @@ import express from 'express';
 import uploadImg from '../manager/upload';
 
 import {postArticles, findAll, findById, findByType, updateArticles,
-	deleteArticles} from '../manager/article';
+	deleteArticles, findAllType} from '../manager/article';
 
 const router = express.Router();
 
@@ -40,7 +40,11 @@ router.use('/findByType', (req, res) => {
 
 //根据id删除文章
 router.use('/deleteArticles', (req, res) => {
-	deleteArticles(req.param('id'), req, res);
+	let data = {
+		id: req.body.id,
+		path: req.body.path
+	};
+	deleteArticles(data, req, res);
 });
 
 //根据id修改文章
@@ -52,6 +56,11 @@ router.use('/updateArticles', (req, res) => {
 		contents: req.body.contents
 	};
 	updateArticles(articleData, req, res);
+});
+
+//查找所有type
+router.use('/findAllType', (req, res) => {
+	findAllType(req, res);
 });
 
 export default router;

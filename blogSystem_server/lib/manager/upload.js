@@ -25,6 +25,21 @@ let uploadImg = (imgResource, req, res) => {
 	return path2;
 }
 
+//删除图片
+let delImg = (path, req, res) => {
+	//console.log(E://blogSystem//blogSystem_server//public//images//1494245031684.png);
+	let paths = path.replace(/http:\/\/localhost:3001\/images\//, 'E://blogSystem//blogSystem_server//public//images//');
+	console.log(paths);
+	fs.unlink(paths, (err) => {
+		if (err) {
+			console.log(err);
+			return;
+		}
+		console.log('success');
+	})
+	return true;
+};
+
 function rename(old, _new, code, bid) {
 	let path = form.uploadDir + code + '/';
 	fs.exits(path, (exits) => {
@@ -42,4 +57,4 @@ function rename(old, _new, code, bid) {
 	});
 }
 
-export default uploadImg;
+export {uploadImg, delImg};

@@ -19,7 +19,7 @@ let maximSchema = new mongoose.Schema({
 
 //用于存储文章类型
 let typeSchema = new mongoose.Schema({
-	type: ''
+	type: String
 });
 
 

@@ -22,7 +22,7 @@
 				<i style="background: url(/src/assets/images/icon.jpg) 0 -52px no-repeat;"></i>
 				<span>管理</span>
 			</router-link>
-			<router-link to="/show" tag="li">
+			<router-link to="/classify" tag="li">
 				<i style="background: url(/src/assets/images/icon.jpg) 0 -104px no-repeat;"></i>
 				<span>分类</span>
 			</router-link>

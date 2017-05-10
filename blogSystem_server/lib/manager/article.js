@@ -1,39 +1,11 @@
 import mongoose from '../mongo/mongoose';
 import {article, articleType} from '../mongo/schema';
 import responseJson from '../responseJson';
-import uploadImg from './upload';
+import {uploadImg, delImg} from './upload';
 import getTimes from './time';
 
 //文章的处理
 
-//发表文章
-let postArticles = (articleData, req, res) => {
-	//console.log(articleData.headImg.length);
-	let imgPath = uploadImg(articleData.headImg, req, res);
-	//console.log(imgPath);
-	//console.log(typeof getTimes());
-	if (!imgPath) {
-		responseJson(res, false, 'the image deal failed');
-		return;
-	}
-	let articles = new article({
-		author: 'susantong',
-		time: getTimes(),
-		headImg: imgPath,
-		type: articleData.type,
-		title: articleData.title,
-		contents: articleData.contents
-	});
-	articles.save((err, article) => {
-		if (err) {
-			console.log('发表失败');
-			responseJson(res, false, 'post article failed');
-			return;
-		}
-		console.log('发表成功');
-		responseJson(res, true, 'post article success');
-	});
-};
 
 //查询所有文章
 let findAll = (req, res) => {
@@ -86,8 +58,14 @@ let findByType = (type, req, res) => {
 };
 
 //根据id删除文章
-let deleteArticles = (id, req, res) => {
-	article.remove({_id: id}, (err) => {
+let deleteArticles = (data, req, res) => {
+	//console.log(data.path);
+	let del = delImg(data.path, req, res);
+	if (!del) {
+		responseJson(res, false, 'delete image failed');
+		return;
+	}
+	article.remove({_id: data.id}, (err) => {
 		if (err) {
 			console.log('删除失败');
 			responseJson(res, false, 'delete failed');
@@ -113,21 +91,75 @@ let updateArticles = (articleData, req, res) => {
 			});
 };
 
-//增加文章类型
-let addType = (type, req, res) => {
-	let type = new articleType({type: type});
-	type.save((err, articleType) => {
+
+//发表文章
+let postArticles = (articleData, req, res) => {
+	
+	let imgPath = uploadImg(articleData.headImg, req, res);
+
+	if (!imgPath) {
+		responseJson(res, false, 'the image deal failed');
+		return;
+	}
+	//console.log(articleData.type);
+	articleType.find({type: articleData.type})
+			    .then((doc) => {
+			    	if (!doc.length) {
+			    		return true;
+			    	}
+			    	return false;
+			    })
+			    .then((build) => {
+			    	console.log('build: ' + build);
+			    	if (build) {
+			    		let type = new articleType({type: articleData.type});
+			    		return type.save();
+			    	}
+			    })
+			    .then((type) => {
+			    	if (type instanceof Object) {
+			    		console.log('类型存储成功');
+			    	}
+			    	let articles = new article({
+						author: 'susantong',
+				 		time: getTimes(),
+				 		headImg: imgPath,
+				 		type: articleData.type,
+				 		title: articleData.title,
+				 		contents: articleData.contents
+			    	});
+			    	return articles.save();
+			    })
+			    .then((articles) => {
+			    	if (articles instanceof Object) {
+			    		console.log('文章存储成功');
+			    		responseJson(res, true, 'post article success');
+			    	} else {
+			    		console.log('发表失败');
+	 					responseJson(res, false, 'post article failed');
+			    	}
+			    });
+};
+
+//查找所有type
+let findAllType = (req, res) => {
+	articleType.find({}, (err, doc) => {
 		if (err) {
-			console.log('存储失败');
-			responseJson(res, false, 'store article type failed');
+			console.log('文章类型查找失败');
+			responseJson(res, false, 'articleType  find failed');
 			return;
 		}
-		console.log('存储成功');
-		responseJson(res, true, 'store article type success');
+		if (!doc.length) {
+			console.log('还没有类型');
+			responseJson(res, true, doc);
+			return;
 		}
+		console.log('类型查找成功');
+		console.log(doc);
+		responseJson(res, true, doc);
 	});
 };
 
 
 export {postArticles, findAll, findById, findByType, updateArticles,
-	deleteArticles, addType};
+	deleteArticles, findAllType};
