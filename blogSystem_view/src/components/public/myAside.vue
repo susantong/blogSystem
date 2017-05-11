@@ -10,17 +10,23 @@
 				<i style="background: url(/src/assets/images/icon.jpg) 0 -26px no-repeat;"></i>
 				<span>展示</span>
 			</router-link>
-			<router-link to="/editArticle" tag="li">
-				<i style="background: url(/src/assets/images/icon.jpg) 0 0 no-repeat;"></i>
-				<span>新文章</span>
+			<router-link to="/editArticle">
+				<li v-show="data.show">
+					<i style="background: url(/src/assets/images/icon.jpg) 0 0 no-repeat;"></i>
+					<span>新文章</span>
+				</li>
 			</router-link>
-			<router-link to="/editMaxim" tag="li">
-				<i style="background: url(/src/assets/images/icon.jpg) 0 -78px no-repeat;"></i>
-				<span>新箴言</span>
+			<router-link to="/editMaxim">
+				<li v-show="data.show">
+					<i style="background: url(/src/assets/images/icon.jpg) 0 -78px no-repeat;"></i>
+					<span>新箴言</span>
+				</li>
 			</router-link>
-			<router-link to="/manager" tag="li">
-				<i style="background: url(/src/assets/images/icon.jpg) 0 -52px no-repeat;"></i>
-				<span>管理</span>
+			<router-link to="/manager">
+				<li v-show="data.show">
+					<i style="background: url(/src/assets/images/icon.jpg) 0 -52px no-repeat;"></i>
+					<span>管理</span>
+				</li>
 			</router-link>
 			<router-link to="/classify" tag="li">
 				<i style="background: url(/src/assets/images/icon.jpg) 0 -104px no-repeat;"></i>
@@ -35,8 +41,16 @@
 		name: 'myAside',
 		data() {
 			return {
-				
+				data: {
+					show: false
+				}
 			}
+		},
+		mounted() {
+			console.log(document.cookie.split(";")[0].split("=")[1]);
+			if (document.cookie.split(";")[0].split("=")[1] == 'susan') {
+				this.data.show = true;
+			} 
 		},
 		methods: {
 		}

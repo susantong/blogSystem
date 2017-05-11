@@ -78,9 +78,11 @@ let deleteArticles = (data, req, res) => {
 
 //根据id修改文章
 let updateArticles = (articleData, req, res) => {
+	
+	//console.log(articleData);
 	article.update({_id: articleData.id}, 
 		{$set: {type: articleData.type, title: articleData.title, 
-			headImg: articleData.headImg, contents: articleData.contents}}, (err) => {
+			 contents: articleData.contents}}, (err) => {
 				if (err) {
 					console.log('修改失败');
 					responseJson(res, false, 'update failed');
@@ -126,7 +128,8 @@ let postArticles = (articleData, req, res) => {
 				 		headImg: imgPath,
 				 		type: articleData.type,
 				 		title: articleData.title,
-				 		contents: articleData.contents
+				 		contents: articleData.contents,
+				 		watchNum: 0
 			    	});
 			    	return articles.save();
 			    })
@@ -160,6 +163,19 @@ let findAllType = (req, res) => {
 	});
 };
 
+//修改浏览量
+let addWatchNum = (data, req, res) => {
+	article.update({_id: data.id}, {$set: {watchNum: data.watchNum + 1}}, (err) => {
+		if (err) {
+			console.log('访问量修改成功');
+			responseJson(res, false, 'update failed');
+			return;
+		}
+		console.log('访问量修改成功');
+		responseJson(res, true, 'update success');
+	});
+};
+
 
 export {postArticles, findAll, findById, findByType, updateArticles,
-	deleteArticles, findAllType};
+	deleteArticles, findAllType, addWatchNum};

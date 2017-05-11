@@ -1,5 +1,6 @@
 import VueRouter from 'vue-router'
 import index from '../components/index.vue'
+import login from '../components/login.vue'
 import show from '../components/show/show.vue'
 import list from '../components/show/list.vue'
 import maxim from '../components/show/maxim.vue'
@@ -12,13 +13,21 @@ import managerArticle from '../components/manager/managerArticle.vue'
 import managerMaxim from '../components/manager/managerMaxim.vue'
 import classify from '../components/articles/classify.vue'
 
+
 const routes = [
 	{
+		path: '/login',
+		components: {
+			default: login
+		}
+	},
+	{
 		path: '/',
+		name: 'index',
 		components: {
 			default: index
 		},
-		//redirect: '/show/list',
+		redirect: '/show/list',
 		children: [
 			{
 				path: 'show',
@@ -29,6 +38,7 @@ const routes = [
 				children: [
 					{
 						path: 'list',
+						name: 'list',
 						components: {
 							default: list
 						},
@@ -36,6 +46,7 @@ const routes = [
 					},
 					{
 						path: 'maxim',
+						name: 'maxim',
 						components: {
 							default: maxim
 						}
@@ -44,6 +55,7 @@ const routes = [
 			},
 			{
 				path: 'manager',
+				name: 'manager',
 				components: {
 					default: manager
 				},
@@ -77,6 +89,7 @@ const routes = [
 			},
 			{
 				path: 'editMaxim',
+				name: 'editMaxim',
 				components: {
 					default: editMaxim
 				}

@@ -5,7 +5,7 @@
 			<input type="file" name="upload" ref='upload' @change="cutPictures">
 		</div>
 
-		<img :src="data.src" ref="headImg" alt="" v-show="!data.show">
+		<img :src="data.src" ref="headImg" alt="" v-show="!data.show" class="image-review">
 
 		<div class="show">
 			<!-- 弹窗以及裁切图 -->
@@ -148,6 +148,10 @@ import cutPictures from '../../getCGI/cutPictures.js'
 			left: 800px;
 			top: 180px;
 			z-index: 21;
+		}
+
+		.image-review {
+			margin-top: 20px;
 		}
 
 		#preview {

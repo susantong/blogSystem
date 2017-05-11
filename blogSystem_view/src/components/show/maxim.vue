@@ -24,6 +24,8 @@
 			}
 		},
 		mounted() {
+			$(this.$parent.$refs.maxim).addClass('change');
+			$(this.$parent.$refs.blog).removeClass('change');
 			getCGI(data);
 			this.data = data;
 		}

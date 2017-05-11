@@ -11,7 +11,9 @@
 </template>
 
 <script>
-import getCGI from '../../getCGI/article'
+import getCGI from '../../getCGI/article';
+import axios from 'axios';
+import qs from 'qs';
 let data = {
 	list: [{
 		title: '加载中',
@@ -22,13 +24,36 @@ let data = {
 	}]
 };
 let id;
-
+let watchNum;
 	export default {
 		name: 'article',
 		data() {
 			return {
 				data: data
 			}
+		},
+		created() {
+			watchNum = this.$route.query.watchNum;
+			console.log(watchNum);
+			let data = qs.stringify({
+					id: id,
+					watchNum: watchNum
+				});
+			axios({
+				method: 'post',
+				url: 'http://localhost:3001/manager/article/addWatchNum',
+				data: data
+			})
+			.then((response) => {
+				if (response.data.success) {
+					alert('访问量增加成功');
+					return;
+				}
+			})
+			.catch((err) => {
+				alert('访问量增加失败');
+				return;
+			});
 		},
 		mounted() {
 			id = this.$route.query.id;

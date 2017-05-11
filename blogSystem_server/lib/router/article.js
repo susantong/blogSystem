@@ -2,7 +2,7 @@ import express from 'express';
 import uploadImg from '../manager/upload';
 
 import {postArticles, findAll, findById, findByType, updateArticles,
-	deleteArticles, findAllType} from '../manager/article';
+	deleteArticles, findAllType, addWatchNum} from '../manager/article';
 
 const router = express.Router();
 
@@ -61,6 +61,16 @@ router.use('/updateArticles', (req, res) => {
 //查找所有type
 router.use('/findAllType', (req, res) => {
 	findAllType(req, res);
+});
+
+//根据id修改watchNum浏览量
+router.use('/addWatchNum', (req, res) => {
+	let data = {
+		id: req.body.id,
+		watchNum: Number(req.body.watchNum)
+	};
+	console.log(data);
+	addWatchNum(data, req, res);
 });
 
 export default router;

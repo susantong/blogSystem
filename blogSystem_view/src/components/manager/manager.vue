@@ -1,8 +1,12 @@
 <template>
 	<div class="manager">
 		<h2>管理页面</h2>
-		<router-link to="/manager/managerArticle" tag="button">博客</router-link>
-		<router-link to="/manager/managerMaxim" tag="button">箴言</router-link>
+		<router-link to="/manager/managerArticle">
+			<button type="button" ref="blog">博客</button>
+		</router-link>
+		<router-link to="/manager/managerMaxim">
+			<button type="button" ref="maxim">箴言</button>
+		</router-link>
 		<router-view></router-view>
 	</div>
 </template>
@@ -25,6 +29,11 @@
 
 		button {
 			margin-bottom: 30px;
+		}
+
+		.change {
+			color: #fff;
+			background-color: #f6a90e;
 		}
 	}
 </style>

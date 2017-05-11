@@ -7,7 +7,7 @@
 				</div>
 				<div class="one-text">
 					<div class="text-border">
-						<router-link :to="{path: '/article', query: {id: list._id}}" tag="h2">{{list.title}}</router-link>
+						<router-link :to="{path: '/article', query: {id: list._id, watchNum: list.watchNum}}" tag="h2">{{list.title}}</router-link>
 						<p>{{list.contents}}</p>
 					</div>
 				</div>
@@ -15,7 +15,7 @@
 			<div class="list-hot-two" v-for="list in data.hotTwo">
 				<div class="two-text">
 					<div class="text">
-						<router-link :to="{path: '/article', query: {id: list._id}}" tag="h2">{{list.title}}</router-link>
+						<router-link :to="{path: '/article', query: {id: list._id, watchNum: list.watchNum}}" tag="h2">{{list.title}}</router-link>
 						<p>{{list.contents}}</p>
 					</div>
 				</div>
@@ -39,7 +39,7 @@
 				</div>
 			</div>
 			<div class="list-detail">
-				<router-link :to="{path: '/article', query: {id: list._id}}" tag="button" class="detail">立即查看</router-link>
+				<router-link :to="{path: '/article', query: {id: list._id, watchNum: list.watchNum}}" tag="button" class="detail">立即查看</router-link>
 			</div>
 		</div>
 	</div>
@@ -47,6 +47,7 @@
 
 <script>
 import getCGI from '../../getCGI/list';
+
 let data = {
 	list: [{
 		headImg: require('../../assets/images/dear.jpg'),
@@ -72,8 +73,13 @@ let data = {
 			}
 		},
 		mounted () {
+			//console.log(this.$parent.$refs.blog);
+			$(this.$parent.$refs.blog).addClass('change');
+			$(this.$parent.$refs.maxim).removeClass('change');
 			getCGI(data);
 			this.data = data;
+		},
+		methods: {
 		}
 	}
 </script>

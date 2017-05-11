@@ -1,7 +1,7 @@
 <template>
 	<div class="managerArticle">
 		<div class="list" v-for="list in data.list">
-			<router-link :to="{path: '/article', query: {id: data.list[0]._id}}" tag="span" class="list-tit">{{list.title}}</router-link>
+			<router-link :to="{path: '/article', query: {id: data.list[0]._id, watchNum: data.list[0].watchNum}}" tag="span" class="list-tit">{{list.title}}</router-link>
 			<router-link :to="{path: '/editArticle', query: {id: data.list[0]._id}}" tag="span" class="list-trans">编辑</router-link>
 			<span class="list-trans" @click="delDom(list._id, list.headImg)">删除</span>
 		</div>
@@ -24,6 +24,8 @@ let data = {
 			}
 		},
 		mounted() {
+			$(this.$parent.$refs.blog).addClass('change');
+			$(this.$parent.$refs.maxim).removeClass('change');
 			getCGI(data);
 			this.data = data;
 		},
@@ -42,7 +44,9 @@ let data = {
 				.then((response) => {
 					if (response.data.success) {
 						alert('删除成功!');
-						location.href="http://localhost:8080/manager/managerArticle";
+						setTimeout(() => {
+							this.$router.push({name: 'list'});
+						}, 200);
 					}
 				})
 				.catch((err) => {

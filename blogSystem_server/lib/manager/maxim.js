@@ -1,7 +1,7 @@
 import mongoose from '../mongo/mongoose';
 import {maxim} from '../mongo/schema';
 import responseJson from '../responseJson';
-import uploadImg from './upload';
+import {uploadImg, delImg} from './upload';
 import getTime from './time';
 
 //箴言的处理
@@ -42,8 +42,13 @@ let findAll = (req, res) => {
 };
 
 //根据ID删除箴言
-let deleteMaxims = (id, req, res) => {
-	maxim.remove({_id: id}, (err) => {
+let deleteMaxims = (data, req, res) => {
+	let del = delImg(data.path, req, res);
+	if (!del) {
+		responseJson(res, false, 'delete image failed');
+		return;
+	}
+	maxim.remove({_id: data.id}, (err) => {
 		if (err) {
 			console.log('删除失败');
 			responseJson(res, false, 'delete failed');
@@ -72,4 +77,17 @@ let findById = (id, req, res) => {
 	});
 };
 
-export {postMaxims, findAll, deleteMaxims, findById};
+//根据id修改箴言
+let updataMaxims = (data, req, res) => {
+	maxim.update({_id: data.id}, {$set: {text: data.text}}, (err) => {
+		if (err) {
+			console.log('箴言修改失败');
+			responseJson(res, false, 'update failed');
+			return;
+		}
+		console.log('箴言修改成功');
+		responseJson(res, true, 'update success');
+	});
+};
+
+export {postMaxims, findAll, deleteMaxims, findById, updataMaxims};

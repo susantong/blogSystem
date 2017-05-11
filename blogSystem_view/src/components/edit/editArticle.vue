@@ -1,6 +1,6 @@
 <template>
 	<div class="editArticle">
-		<h2>新文章</h2>
+		<h2 ref="title">新文章</h2>
 		<label>文章标题:</label>
 		<div class="article-title">
 			<input type="text" placeholder="请输入标题..." v-model="data.list[0].title">
@@ -21,7 +21,7 @@
 			</div>
 		</div>
 		<div class="submits">
-			<button type="button" @click="submits">{{data.button}}</button>
+			<button type="button" ref="btn">提交</button>
 			<button type="button">取消</button>
 		</div>
 	</div>
@@ -35,8 +35,6 @@ import getCGI from '../../getCGI/article'
 let data = {
 	imgSrc: '',
     id: '',
-	button: '提交',
-	click: 'submits',
 	show: false,
 	type: [],
 	list: [{title: '', type: '', contents: '', headImg: ''}]
@@ -53,11 +51,15 @@ let data = {
 		},
 		mounted() {
 			this.setData();
+			this.$refs.title.innerHTML = '新文章';
+			this.$refs.btn.onclick = this.submits;
+			this.$refs.btn.innerHTML = '提交';
 			let id= this.$route.query.id;
 			if (id) {
 				this.id = id;
-				this.button = '修改';
-				this.click = 'edits';
+				this.$refs.title.innerHTML = '修改文章';
+				this.$refs.btn.onclick = this.revise;
+				this.$refs.btn.innerHTML = '修改';
 				getCGI(data, id);
 				this.data.list = data.list;
 			}
@@ -103,8 +105,9 @@ let data = {
 					console.log(this.data.list[0].title);
 				}
 			},
-			submits() {
+			common(url, text) {
 				let types = '';
+				let that = this;
 				if (this.data.list[0].type) {
 					types = this.data.list[0].type;
 				} else {
@@ -116,6 +119,7 @@ let data = {
 				//传参序列化
 				// console.log(this.$refs.cutPictures.$refs.headImg);
 				let data = qs.stringify({
+						id: this.data.list[0]._id,
 						type: this.data.list[0].type,
 						upload: this.$refs.cutPictures.$refs.headImg.src,
 						title:  this.data.list[0].title,
@@ -123,14 +127,16 @@ let data = {
 					});
 				axios({
 					method: 'post',
-					url: 'http://localhost:3001/manager/article/postArticles',
+					url: 'http://localhost:3001/manager/article' + url,
 					data: data
 				})
 				.then(function (response) {
 					//console.log(response.data);
 					if (response.data.success) {
-						alert('发表成功！');
-						this.$router.push('/editArticle');
+						alert(text + '成功！');
+						setTimeout(() => {
+							that.$router.push({name: 'list'});
+						}, 200);
 					}
 				})
 				.catch(function (err) {
@@ -138,8 +144,11 @@ let data = {
 					return;
 				});
 			},
-			edits() {
-				console.log('ok');
+			submits() {
+				this.common('/postArticles', '提交');
+			},
+			revise() {
+				this.common('/updateArticles', '修改');
 			}
 		}
 	}

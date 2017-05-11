@@ -1,7 +1,7 @@
 <template>
 	<div class="classify">
 		<div class="btn">
-			<button type="button" v-for="btn in data.btn" @click="find(btn.type)">{{btn.type}}</button>
+			<button type="button" v-for="btn in data.btn" @click="find(btn.type, $event)">{{btn.type}}</button>
 		</div>
 
 		<div v-for="list in data.list">
@@ -19,7 +19,7 @@
 				</div>
 			</div>
 			<div class="list-detail">
-				<router-link :to="{path: '/article', query: {id: list._id}}" tag="button" class="detail">立即查看</router-link>
+				<router-link :to="{path: '/article', query: {id: list._id, watchNum: list.watchNum}}" tag="button" class="detail">立即查看</router-link>
 			</div>
 		</div>
 	</div>
@@ -55,7 +55,8 @@ import qs from 'qs';
 
 		},
 		methods: {
-			find(type) {
+			find(type, event) {
+				$(event.currentTarget).addClass('change').siblings().removeClass('change');
 				axios({
 					method: 'get',
 					url: 'http://localhost:3001/manager/article/findByType?type=' + type
@@ -160,6 +161,11 @@ import qs from 'qs';
 		}
 		.lists:hover a {
 			font-weight: 800;
-		} 
+		}
+
+		.change {
+			color: #fff;
+			background-color: #f6a90e;
+		}
 	}
 </style>
