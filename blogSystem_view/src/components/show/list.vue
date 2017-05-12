@@ -4,6 +4,7 @@
 			<div class="list-hot-one" v-for="list in data.hotOne">
 				<div class="one-img">
 					<img :src="list.headImg">
+					<img :src="list.headImg">
 				</div>
 				<div class="one-text">
 					<div class="text-border">
@@ -106,10 +107,10 @@ let data = {
 				height: 40px;
 				line-height: 20px;
 			}
-
 			img {
-				width: 100%;
+				width: 50%;
 				height: 100%;
+				float: left;
 			}
 
 			.text-border, .text {
@@ -157,6 +158,12 @@ let data = {
 				height: 100%;
 				float: left;
 			}
+
+			img {
+				width: 100%;
+				height: 100%;
+			}
+
 		}
 		.list-detail {
 			width: 100%;

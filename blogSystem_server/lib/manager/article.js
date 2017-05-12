@@ -25,7 +25,7 @@ let findById = (id, req, res) => {
 	article.find({_id: id}, (err, doc) => {
 		if (err) {
 			console.log('查询出错');
-			responseJson(res, false, 'find by type failed');
+			responseJson(res, false, 'find by id failed');
 			return;
 		}
 		if (!doc.length) {

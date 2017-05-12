@@ -78,14 +78,16 @@ import myAside from './public/myAside.vue';
 		.myaside:hover {
 			left: 0;
 		}
+
 		.content-wrap {
 			position: absolute;
 			top: 80px;
-			width: 100%;
+			left: 300px;
+			width: 70%;
 		}
 	    .content {
-	      width: 60%;
-	      margin: 0 auto;	      
+	      width: 80%;
+	      min-width: 720px;	      
 	    }
 	}
 </style>

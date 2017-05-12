@@ -8,7 +8,7 @@
 		</div>
 		<div class="submits">
 			<button type="button" ref="btn">提交</button>
-			<button type="button">取消</button>
+			<button type="button" @click="disappear">取消</button>
 		</div>
 	</div>
 </template>
@@ -82,6 +82,9 @@ let data = {
 			},
 			revise() {
 				this.common('/updataMaxims', '修改');
+			},
+			disappear() {
+				this.$router.push({name: 'maxim'});
 			}
 		}
 	}

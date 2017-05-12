@@ -167,5 +167,9 @@ import qs from 'qs';
 			color: #fff;
 			background-color: #f6a90e;
 		}
+
+		button {
+			overflow: hidden;
+		}
 	}
 </style>

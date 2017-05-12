@@ -71,6 +71,7 @@ let watchNum;
 			text-align: center;
 			margin-bottom: 20px;
 			color: #999;
+			overflow: hidden;
 		}
 		.artcle-tit {
 			border: 1px dotted #ccc;

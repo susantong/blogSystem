@@ -63,6 +63,7 @@ const routes = [
 				children: [
 					{
 						path: 'managerArticle',
+						name: 'managerArticle',
 						components: {
 							default: managerArticle
 						}
@@ -83,6 +84,7 @@ const routes = [
 			},
 			{
 				path: 'editArticle',
+				name: 'editArticle',
 				components: {
 					default: editArticle
 				}
