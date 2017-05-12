@@ -8,7 +8,7 @@
 
 文件目录为：
 
-![server端目录](https://github.com/susantong/blogSystem/raw/master/blog_view/src/assets/images/server.png)
+![server端目录](https://github.com/susantong/blogSystem/raw/master/blogSystem_view/src/assets/images/server.png)
 
 api|功能|所需参数|成功时的返回值|失败时的返回值
 -|-|-|-|-
@@ -31,7 +31,7 @@ api|功能|所需参数|成功时的返回值|失败时的返回值
 
 文件目录为：
 
-![前端文件目录](https://github.com/susantong/blogSystem/raw/master/blog_view/src/assets/images/font.png)
+![前端文件目录](https://github.com/susantong/blogSystem/raw/master/blogSystem_view/src/assets/images/font.png)
 
 数据库采用mongodb,使用mongoose操作
 
