@@ -27,12 +27,11 @@ import '../../assets/js/jquery.Jcrop.js'
 import cutPictures from '../../getCGI/cutPictures.js'
 	export default {
 		name: 'cutPictures',
-		props: ['msg'],
 		data() {
 			return {
 				data: {
 					show: false,
-					src: this.msg,
+					src: '',
 					widthScale: 0,
 					heightScale: 0,
 					jscropApi: null
@@ -40,7 +39,9 @@ import cutPictures from '../../getCGI/cutPictures.js'
 			}
 		},
 		mounted() {
-			console.log(this.msg);
+			this.$root.eventHub.$on('msg', (msg) => {
+				this.data.src = msg;
+			});
 		},
 		methods: {
 			toSave() {

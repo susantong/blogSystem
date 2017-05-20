@@ -13,7 +13,7 @@
 		<div class="article-title">
 			<input type="text" placeholder="请输入文章类型..."  v-model="data.list[0].type">
 		</div>
-		<cutPictures :msg="data.list[0].headImg" ref="cutPictures" class="cutPictures"></cutPictures>
+		<cutPictures ref="cutPictures" class="cutPictures"></cutPictures>
 		<div class="main">
 			<label>文章内容:</label>
 			<div class="article-content">
@@ -33,7 +33,6 @@ import axios from 'axios'
 import qs from 'qs'
 import getCGI from '../../getCGI/article'
 let data = {
-	imgSrc: '',
     id: '',
 	show: false,
 	type: [],
@@ -51,59 +50,74 @@ let data = {
 		},
 		mounted() {
 			this.setData();
-			this.$refs.title.innerHTML = '新文章';
-			this.$refs.btn.onclick = this.submits;
-			this.$refs.btn.innerHTML = '提交';
-			let id= this.$route.query.id;
-			if (id) {
-				this.id = id;
-				this.$refs.title.innerHTML = '修改文章';
-				this.$refs.btn.onclick = this.revise;
-				this.$refs.btn.innerHTML = '修改';
-				getCGI(data, id);
-				this.data.list = data.list;
-			}
+			//let id= this.$route.query.id;
+			// if (id) {
+			// 	this.id = id;
+			// 	this.$refs.title.innerHTML = '修改文章';
+			// 	this.$refs.btn.onclick = this.revise;
+			// 	this.$refs.btn.innerHTML = '修改';
+			// 	getCGI(data, id);
+			// 	this.data.list = data.list;
+			// }
 
-			axios({
-					method: 'get',
-					url: 'http://localhost:3001/manager/article/findAllType'
-				})
-				.then((response) => {
-					if (response.data.success) {
-						console.log(response.data.result);
-						this.data.type = response.data.result;
-					}
-				})
-				.catch((err) => {
-					alert('注意文章类型');
-					return;
-				});
+			// axios({
+			// 		method: 'get',
+			// 		url: 'http://localhost:3001/manager/article/findAllType'
+			// 	})
+			// 	.then((response) => {
+			// 		if (response.data.success) {
+			// 			console.log(response.data.result);
+			// 			this.data.type = response.data.result;
+			// 		}
+			// 	})
+			// 	.catch((err) => {
+			// 		alert('注意文章类型');
+			// 		return;
+			// 	});
 
-			console.log(this.data.type);
+			// console.log(this.data.type);
 		},
 		watch: {
 			'$route': 'setData'
 		},
 		methods: {
 			setData() {
+				//console.log('ok');
 				if (!this.$route.query.id) {
 					this.data = {
-						imgSrc: '',
 					    id: '',
 					    type: '',
-						button: '提交',
-						click: 'submits',
 						show: false,
 						list: [{title: '', type: '', contents: '', headImg: ''}]
-					}
+					};
+					this.$refs.title.innerHTML = '新文章';
+					this.$refs.btn.onclick = this.submits;
+					this.$refs.btn.innerHTML = '提交';
+					this.$root.eventHub.$emit('msg', '');
+					
 				} else {
 					this.id = this.$route.query.id;
-					this.button = '修改';
-					this.click = 'edits';
+					this.$refs.title.innerHTML = '修改文章';
+					this.$refs.btn.onclick = this.revise;
+					this.$refs.btn.innerHTML = '修改';
 					getCGI(data, this.$route.query.id);
 					this.data.list = data.list;
-					console.log(this.data.list[0].title);
+					this.$root.eventHub.$emit('msg', data.list[0].headImg);
 				}
+				axios({
+						method: 'get',
+						url: 'http://localhost:3001/manager/article/findAllType'
+					})
+					.then((response) => {
+						if (response.data.success) {
+							console.log(response.data.result);
+							this.data.type = response.data.result;
+						}
+					})
+					.catch((err) => {
+						alert('注意文章类型');
+						return;
+					});
 			},
 			common(url, text) {
 				let types = '';
