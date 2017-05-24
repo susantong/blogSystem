@@ -37,22 +37,33 @@ let data = {
 			}
 		},
 		mounted() {
-			let id = this.$route.query.id;
-			//console.log(id);
-			this.$refs.title.innerHTML = '新箴言';
-			this.$refs.btn.onclick = this.save;
-			this.$refs.btn.innerHTML = '提交';
-			if (id) {
-				this.id = id;
-				this.$refs.title.innerHTML = '修改箴言';
-				this.$refs.btn.onclick = this.revise;
-				this.$refs.btn.innerHTML = '修改';
-				getCGI(data, id);
-				this.data.list = data.list;
-				console.log(this.data.list[0].text);
-			}
+			this.setData();
+		},
+		watch: {
+			'$route': 'setData'
 		},
 		methods: {
+			setData() {
+				if(!this.$route.query.id) {
+					this.data = {
+						imgSrc: '',
+						id: '',
+						show: false,
+						list: [{image: '', text: ''}]
+					};
+					this.$refs.title.innerHTML = '新箴言';
+					this.$refs.btn.onclick = this.save;
+					this.$refs.btn.innerHTML = '提交';
+				} else {
+					this.id = this.$route.query.id;
+					this.$refs.title.innerHTML = '修改箴言';
+					this.$refs.btn.onclick = this.revise;
+					this.$refs.btn.innerHTML = '修改';
+					getCGI(data, id);
+					this.data.list = data.list;
+					//console.log(this.data.list[0].text);
+				}
+			},
 			common(url, text) {
 				let data = qs.stringify({
 					id: this.data.list[0]._id,
@@ -78,6 +89,7 @@ let data = {
 				});
 			},
 			save() {
+				console.log('提交');
 				this.common('/postMaxims', '提交');
 			},
 			revise() {
