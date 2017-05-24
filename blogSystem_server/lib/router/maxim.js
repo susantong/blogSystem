@@ -15,7 +15,11 @@ router.use('/postMaxims', (req, res) => {
 
 //查找所有箴言
 router.use('/findAll', (req, res) => {
-	findAll(req, res);
+	let data = {
+		last_id: req.body['last_id'],
+		pageSize: req.body.pageSize
+	};
+	findAll(data, req, res);
 });
 
 //根据ID删除箴言

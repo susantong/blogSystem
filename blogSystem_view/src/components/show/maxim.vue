@@ -12,8 +12,14 @@
 
 <script>
 	import getCGI from '../../getCGI/maxim'
+	import axios from 'axios'
+	import qs from 'qs'
 	let data = {
-		list: []
+		list: [],
+		last_id: '',
+		loading: false,
+		pageSize: 0,
+		length: 0
 	};
 
 	export default {
@@ -26,8 +32,57 @@
 		mounted() {
 			$(this.$parent.$refs.maxim).addClass('change');
 			$(this.$parent.$refs.blog).removeClass('change');
-			getCGI(data);
+		
+			getCGI(data, {last_id: 0, pageSize: 5});
 			this.data = data;
+		},
+		updated() {
+			let that = this;
+
+			this.$root.eventHub.$on('maxim', (msg) => {
+				//console.log('..' + msg);
+				//console.log(that.data.loading);
+				that.data.loading = msg;
+
+			});
+		},
+		watch: {
+			'data.loading'() {
+				console.log('loading..' + this.data.loading);
+				//this.data.loading = !this.data.loading;
+				let that = this;
+				this.data.pageSize = 4;
+				let data = qs.stringify({
+					last_id: this.data['last_id'],
+					pageSize: this.data.pageSize
+				});
+				axios({
+					method: 'post',
+					url: 'http://localhost:3001/manager/maxim/findAll',
+					data: data
+				})
+				.then((response) => {
+					//console.log(response.data.result.length);
+					that.data.length = response.data.result.length;
+					if (response.data.result.length) {
+						that.data['last_id'] = (response.data.result[that.data.length - 1])['_id'];
+				
+						setTimeout(() => {
+							that.data.list = that.data.list.concat(response.data.result);
+						
+							that.$root.eventHub.$emit('stop', {value: false, loading: that.data.loading});
+						}, 1000);
+
+					} else {
+						//console.log('stop');
+						that.$root.eventHub.$emit('stop', {value:true, loading: that.data.loading});
+					}
+					
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+			}
 		}
 	}
 </script>

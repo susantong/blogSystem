@@ -13,7 +13,6 @@ import managerArticle from '../components/manager/managerArticle.vue'
 import managerMaxim from '../components/manager/managerMaxim.vue'
 import classify from '../components/articles/classify.vue'
 
-
 const routes = [
 	{
 		path: '/login',

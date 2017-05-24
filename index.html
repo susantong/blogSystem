@@ -45,9 +45,12 @@
 
 	<button id="posts">测试</button>
 
+	<button type="button" id="aga">再一次查询</button>
+
 	<script type="text/javascript" src="./jquery.js"></script>
 	<script type="text/javascript">
 		var res;
+		var last_id;
 		$('#test').on('click', function () {
 			//console.log($('#username').val());
 			$.ajax({
@@ -130,9 +133,34 @@
 		$('#find').on('click', function () {
 			$.ajax({
 				url: 'http://localhost:3001/manager/article/findAll',
-				method: 'GET',
+				method: 'POST',
+				data: {
+					last_id: 0,
+					pageSize: 5
+				},
 				success: function (data) {
 					res = data;
+					last_id = (data.result[4])['_id'];
+					console.log(data);
+				},
+				error: function () {
+					console.log('failed');
+				}
+			});
+		});
+
+		$('#aga').on('click', function () {
+			console.log(last_id);
+			$.ajax({
+				url: 'http://localhost:3001/manager/article/findAll',
+				method: 'POST',
+				data: {
+					last_id: last_id,
+					pageSize: 5
+				},
+				success: function (data) {
+					res = data;
+					last_id = data[0];
 					console.log(data);
 				},
 				error: function () {

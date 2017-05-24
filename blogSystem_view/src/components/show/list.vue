@@ -48,6 +48,8 @@
 
 <script>
 import getCGI from '../../getCGI/list';
+import axios from 'axios';
+import qs from 'qs';
 
 let data = {
 	list: [{
@@ -64,7 +66,11 @@ let data = {
 		headImg: require('../../assets/images/dear.jpg'),
 		contents: '数据未加载',
 		_id: '123'
-	}]
+	}],
+	last_id: '',
+	loading: false,
+	pageSize: 0,
+	length: 0
 };
 	export default {
 		name: 'list',
@@ -74,13 +80,58 @@ let data = {
 			}
 		},
 		mounted () {
-			//console.log(this.$parent.$refs.blog);
 			$(this.$parent.$refs.blog).addClass('change');
 			$(this.$parent.$refs.maxim).removeClass('change');
-			getCGI(data);
+			
+			getCGI(data, {last_id: 0, pageSize: 5});
 			this.data = data;
 		},
+		updated() {
+			let that = this;
+
+			this.$root.eventHub.$on('list', (msg) => {
+				//console.log(msg + '..');
+				that.data.loading = msg;
+			});
+			//console.log('updated');
+		},
 		methods: {
+			
+		},
+		watch: {
+			'data.loading'() {
+				//console.log('loading..');
+				let that = this;
+				this.data.pageSize = 4;
+				let data = qs.stringify({
+					last_id: this.data['last_id'],
+					pageSize: this.data.pageSize
+				});
+				axios({
+					method: 'post',
+					url: 'http://localhost:3001/manager/article/findAll',
+					data: data
+				})
+				.then((response) => {
+					//console.log(response.data.result.length);
+					that.data.length = response.data.result.length;
+					if (response.data.result.length) {
+						that.data['last_id'] = (response.data.result[that.data.length - 1])['_id'];
+				
+						setTimeout(() => {
+							that.data.list = that.data.list.concat(response.data.result);
+							that.$root.eventHub.$emit('stop', {value: false, loading: that.data.loading});
+						}, 1000);
+
+					} else {
+						that.$root.eventHub.$emit('stop', {value: true, loading: that.data.loading});
+					}
+					
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+			}
 		}
 	}
 </script>

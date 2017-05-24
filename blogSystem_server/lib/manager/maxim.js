@@ -3,6 +3,7 @@ import {maxim} from '../mongo/schema';
 import responseJson from '../responseJson';
 import {uploadImg, delImg} from './upload';
 import getTime from './time';
+import page from './page';
 
 //箴言的处理
 
@@ -29,16 +30,17 @@ let postMaxims = (maximData, req, res) => {
 };
 
 //查找所有箴言
-let findAll = (req, res) => {
-	maxim.find({}, (err, doc) => {
-		if (err) {
-			console.log('查询出错');
-			responseJson(res, false, 'find failed');
-			return;
-		}
-		console.log('查找成功');
-		responseJson(res, true, doc);
-	});
+let findAll = (data, req, res) => {
+	// maxim.find({}, (err, doc) => {
+	// 	if (err) {
+	// 		console.log('查询出错');
+	// 		responseJson(res, false, 'find failed');
+	// 		return;
+	// 	}
+	// 	console.log('查找成功');
+	// 	responseJson(res, true, doc);
+	// });
+	page(data, maxim, req, res);
 };
 
 //根据ID删除箴言

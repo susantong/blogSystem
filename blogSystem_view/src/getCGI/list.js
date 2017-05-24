@@ -1,13 +1,16 @@
 import axios from 'axios';
 import qs from 'qs';
 
-export default function (data) {
+export default function (data, obj) {
+	let res = qs.stringify(obj);
 	axios({
-		method: 'get',
+		method: 'post',
 		url: 'http://localhost:3001/manager/article/findAll',
+		data: res
 	})
 	.then((response) => {
 		let len = response.data.result.length;
+		data['last_id'] = (response.data.result[obj.pageSize - 1])['_id'];
 		switch(len) {
 			case 0:
 			case 1: data.hotOne[0] = response.data.result[0];
@@ -20,11 +23,7 @@ export default function (data) {
 					 data.list = response.data.result.slice(2);
 					 break;
 		}
-		//data.hotOne[0] = response.data.result[0];
-		//data.hotTwo[0] = response.data.result[1];
-		//data.list = response.data.result.slice(2);
-		//console.log(response.data.result[0]);
-		//console.log(response.data.result[0].headImg);
+		
 	})
 	.catch((err) => {
 		console.log(err);

@@ -20,7 +20,11 @@ router.use('/postArticles', (req, res) => {
 
 //查找所有文章
 router.use('/findAll', (req, res) => {
-	findAll(req, res);
+	let data = {
+		last_id: req.body['last_id'],
+		pageSize: req.body.pageSize
+	};
+	findAll(data, req, res);
 });
 
 //上传图片

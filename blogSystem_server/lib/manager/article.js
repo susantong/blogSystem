@@ -3,21 +3,16 @@ import {article, articleType} from '../mongo/schema';
 import responseJson from '../responseJson';
 import {uploadImg, delImg} from './upload';
 import getTimes from './time';
+import page from './page';
 
 //文章的处理
 
 
 //查询所有文章
-let findAll = (req, res) => {
-	article.find({}, (err, doc) => {
-		if (err) {
-			console.log('查询出错');
-			responseJson(res, false, 'find failed');
-			return;
-		}
-		console.log('查找成功');
-		responseJson(res, true, doc);
-	});
+let findAll = (data, req, res) => {
+	
+	page(data, article, req, res);
+
 };
 
 //根据id查找对应文章
