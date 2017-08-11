@@ -97,6 +97,7 @@ const routes = [
 			},
 			{
 				path: 'classify',
+				name: 'classify',
 				components: {
 					default: classify
 				}

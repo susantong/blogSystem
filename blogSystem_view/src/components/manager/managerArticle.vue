@@ -14,7 +14,11 @@ import axios from 'axios';
 import qs from 'qs';
 
 let data = {
-	list: []
+	list: [],
+	last_id: '',
+	loading: false,
+	pageSize: 0,
+	length: 0
 };
 	export default {
 		name: 'managerArticle',
@@ -26,8 +30,9 @@ let data = {
 		mounted() {
 			$(this.$parent.$refs.blog).addClass('change');
 			$(this.$parent.$refs.maxim).removeClass('change');
-			getCGI(data);
+			getCGI(data, {last_id: 0, pageSize: 8});
 			this.data = data;
+			//console.log(data);
 		},
 		methods: {
 			delDom(id, path) {

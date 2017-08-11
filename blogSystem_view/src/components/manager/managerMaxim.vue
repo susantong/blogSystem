@@ -13,7 +13,11 @@ import getCGI from '../../getCGI/maxim';
 import axios from 'axios';
 import qs from 'qs'
 let data = {
-	list: []
+	list: [],
+	last_id: '',
+	loading: false,
+	pageSize: 0,
+	length: 0
 };
 	export default {
 		name: 'managerMaxim',
@@ -25,7 +29,7 @@ let data = {
 		mounted() {
 			$(this.$parent.$refs.maxim).addClass('change');
 			$(this.$parent.$refs.blog).removeClass('change');
-			getCGI(data);
+			getCGI(data, {last_id: 0, pageSize: 5});
 			this.data = data;
 		},
 		methods: {

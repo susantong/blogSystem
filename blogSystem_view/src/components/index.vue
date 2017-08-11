@@ -7,7 +7,6 @@
     	<div class="content-wrap">
     		<div class="content">
     			<router-view></router-view>
-    			<loading></loading>
     		</div>
     	</div>
 	</div>
@@ -16,58 +15,12 @@
 <script>
 import myHeader from './public/myHeader.vue';
 import myAside from './public/myAside.vue';
-import loading from './public/loading.vue'
 
 	export default {
 		name: 'index',
 		components: {
     		myAside: myAside,
-    		loading: loading
-  		},
-		data() {
-			return {
-				data: {
-					msg: false,
-					tag: true
-				}
-			}
-		},
-		mounted() {
-			
-			this.change();
-		},
-		watch: {
-			'$route': 'change'
-		},
-		methods: {
-			change() {
-				let route = window.location.hash;
-				let that = this;
-				let state = '';
-				//console.log(route);
-				// switch(route) {
-				// 	case '#/show/list':
-				// 		state = 'list';
-				// 		//this.data.tag = true;
-				// 		break;
-				// 	case '#/show/maxim':
-				// 		state = 'maxim';  
-				// 		//this.data.tag = true;  
-				// 		break;
-
-				// }
-				//console.log('tag: ' + this.data.tag);
-				//etTimeout(() => {
-					//this.$root.eventHub.$on('go', (msg) => {
-						//console.log('tag: ' + that.data.tag);
-					//this.data.tag = !this.data.tag;
-						//that.$root.eventHub.$emit(state, true);
-						//this.data.tag = !this.data.tag;
-					//});
-				//}, 1000);
-     
-			}
-		}
+  		}
 	}
 </script>
 

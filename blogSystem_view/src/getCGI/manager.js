@@ -1,13 +1,19 @@
 import axios from 'axios';
 import qs from 'qs';
 
-export default function (data) {
+export default function (data, obj) {
+	let res = qs.stringify(obj);
 	axios({
-		method: 'get',
+		method: 'post',
 		url: 'http://localhost:3001/manager/article/findAll',
+		data: res
 	})
 	.then((response) => {
-		data.list = response.data.result;
+		let len = response.data.result.length;
+		data['last_id'] = (response.data.result[obj.pageSize - 1])['_id'];
+		if (len) {
+			data.list = response.data.result;
+		}
 	})
 	.catch((err) => {
 		console.log(err);

@@ -43,11 +43,14 @@
 				<router-link :to="{path: '/article', query: {id: list._id, watchNum: list.watchNum}}" tag="button" class="detail">立即查看</router-link>
 			</div>
 		</div>
+		<next :obj="obj"  @accept="accepts"></next>
+		<div @click="tag && nexts()" ref="next" class="next">next</div>
 	</div>
-</template>
+</template> 
 
 <script>
 import getCGI from '../../getCGI/list';
+import next from '../public/Next.vue';
 import axios from 'axios';
 import qs from 'qs';
 
@@ -68,69 +71,39 @@ let data = {
 		_id: '123'
 	}],
 	last_id: '',
-	loading: false,
-	pageSize: 0,
-	length: 0
+	loading: false
 };
 	export default {
 		name: 'list',
+		components: {
+			next: next
+		},
 		data() {
 			return {
-				data: data
+				data: data,
+				obj: '',
+				tag: true
 			}
 		},
-		mounted () {
+		mounted() {
 			$(this.$parent.$refs.blog).addClass('change');
 			$(this.$parent.$refs.maxim).removeClass('change');
 			
-			getCGI(data, {last_id: 0, pageSize: 5});
+			getCGI(data, {last_id: 0, pageSize: 5}, true);
 			this.data = data;
 		},
-		updated() {
-			let that = this;
-
-			this.$root.eventHub.$on('list', (msg) => {
-				//console.log(msg + '..');
-				that.data.loading = msg;
-			});
-			//console.log('updated');
-		},
 		methods: {
-			
-		},
-		watch: {
-			'data.loading'() {
-				//console.log('loading..');
-				let that = this;
-				this.data.pageSize = 4;
-				let data = qs.stringify({
+			nexts() {
+				this.obj = {
 					last_id: this.data['last_id'],
-					pageSize: this.data.pageSize
-				});
-				axios({
-					method: 'post',
-					url: 'http://localhost:3001/manager/article/findAll',
-					data: data
-				})
-				.then((response) => {
-					//console.log(response.data.result.length);
-					that.data.length = response.data.result.length;
-					if (response.data.result.length) {
-						that.data['last_id'] = (response.data.result[that.data.length - 1])['_id'];
-				
-						setTimeout(() => {
-							that.data.list = that.data.list.concat(response.data.result);
-							that.$root.eventHub.$emit('stop', {value: false, loading: that.data.loading});
-						}, 1000);
-
-					} else {
-						that.$root.eventHub.$emit('stop', {value: true, loading: that.data.loading});
-					}
-					
-				})
-				.catch((err) => {
-					console.log(err);
-				});
+					pageSize: 5,
+					getCGI: getCGI,
+					data: this.data
+				};
+			},
+			accepts(data) {
+				this.tag = data;
+				this.$refs.next.innerHTML = '没有更多了。。。';
 			}
 		}
 	}
@@ -303,5 +276,12 @@ let data = {
 		.lists:hover a {
 			font-weight: 800;
 		} 
+
+		.next {
+			text-align: center;
+			color: blue;
+			font-size: 1.4rem;
+			cursor: pointer;
+		}
 	}
 </style>

@@ -31,15 +31,6 @@ let postMaxims = (maximData, req, res) => {
 
 //查找所有箴言
 let findAll = (data, req, res) => {
-	// maxim.find({}, (err, doc) => {
-	// 	if (err) {
-	// 		console.log('查询出错');
-	// 		responseJson(res, false, 'find failed');
-	// 		return;
-	// 	}
-	// 	console.log('查找成功');
-	// 	responseJson(res, true, doc);
-	// });
 	page(data, maxim, req, res);
 };
 

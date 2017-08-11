@@ -7,6 +7,8 @@
 				<span>{{list.date}}</span>
 			</div>
 		</div>
+		<next :obj="obj"  @accept="accepts"></next>
+		<div @click="tag && nexts()" ref="next" class="next">next</div>
 	</div>
 </template>
 
@@ -14,6 +16,7 @@
 	import getCGI from '../../getCGI/maxim'
 	import axios from 'axios'
 	import qs from 'qs'
+	import next from '../public/Next.vue'; 
 	let data = {
 		list: [],
 		last_id: '',
@@ -24,64 +27,36 @@
 
 	export default {
 		name: 'maxim',
+		components: {
+			next: next
+		},
 		data() {
 			return {
-				data: data
+				data: data,
+				obj: '',
+				tag: true
 			}
 		},
 		mounted() {
 			$(this.$parent.$refs.maxim).addClass('change');
 			$(this.$parent.$refs.blog).removeClass('change');
 		
-			getCGI(data, {last_id: 0, pageSize: 5});
+			getCGI(data, {last_id: 0, pageSize: 5}, true);
 			this.data = data;
 		},
-		updated() {
-			let that = this;
-
-			this.$root.eventHub.$on('maxim', (msg) => {
-				//console.log('..' + msg);
-				//console.log(that.data.loading);
-				that.data.loading = msg;
-
-			});
-		},
-		watch: {
-			'data.loading'() {
-				console.log('loading..' + this.data.loading);
-				//this.data.loading = !this.data.loading;
-				let that = this;
-				this.data.pageSize = 4;
-				let data = qs.stringify({
+		methods: {
+			nexts() {
+				this.obj = {
 					last_id: this.data['last_id'],
-					pageSize: this.data.pageSize
-				});
-				axios({
-					method: 'post',
-					url: 'http://localhost:3001/manager/maxim/findAll',
-					data: data
-				})
-				.then((response) => {
-					//console.log(response.data.result.length);
-					that.data.length = response.data.result.length;
-					if (response.data.result.length) {
-						that.data['last_id'] = (response.data.result[that.data.length - 1])['_id'];
-				
-						setTimeout(() => {
-							that.data.list = that.data.list.concat(response.data.result);
-						
-							that.$root.eventHub.$emit('stop', {value: false, loading: that.data.loading});
-						}, 1000);
-
-					} else {
-						//console.log('stop');
-						that.$root.eventHub.$emit('stop', {value:true, loading: that.data.loading});
-					}
-					
-				})
-				.catch((err) => {
-					console.log(err);
-				});
+					pageSize: 5,
+					getCGI: getCGI,
+					data: this.data
+				};
+				//console.log('aa');
+			},
+			accepts(data) {
+				this.tag = data;
+				this.$refs.next.innerHTML = '没有更多了。。。';
 			}
 		}
 	}
@@ -139,6 +114,12 @@
 					color: #fff;
 				}
 			}
+		}
+		.next {
+			text-align: center;
+			color: blue;
+			font-size: 1.4rem;
+			cursor: pointer;
 		}
 	}
 </style>

@@ -13,7 +13,7 @@
 		<div class="article-title">
 			<input type="text" placeholder="请输入文章类型..."  v-model="data.list[0].type">
 		</div>
-		<cutPictures ref="cutPictures" class="cutPictures"></cutPictures>
+		<cutPictures ref="cutPictures" class="cutPictures" :obj='obj'></cutPictures>
 		<div class="main">
 			<label>文章内容:</label>
 			<div class="article-content">
@@ -45,37 +45,17 @@ let data = {
 		},
 		data() {
 			return { 
-				data: data
+				data: data,
+				obj: {
+					boxWidth: 300,
+					boxHeight: 300,
+					widthScale: 1,
+					heightScale: 1
+				}
 			}
 		},
 		mounted() {
 			this.setData();
-			//let id= this.$route.query.id;
-			// if (id) {
-			// 	this.id = id;
-			// 	this.$refs.title.innerHTML = '修改文章';
-			// 	this.$refs.btn.onclick = this.revise;
-			// 	this.$refs.btn.innerHTML = '修改';
-			// 	getCGI(data, id);
-			// 	this.data.list = data.list;
-			// }
-
-			// axios({
-			// 		method: 'get',
-			// 		url: 'http://localhost:3001/manager/article/findAllType'
-			// 	})
-			// 	.then((response) => {
-			// 		if (response.data.success) {
-			// 			console.log(response.data.result);
-			// 			this.data.type = response.data.result;
-			// 		}
-			// 	})
-			// 	.catch((err) => {
-			// 		alert('注意文章类型');
-			// 		return;
-			// 	});
-
-			// console.log(this.data.type);
 		},
 		watch: {
 			'$route': 'setData'

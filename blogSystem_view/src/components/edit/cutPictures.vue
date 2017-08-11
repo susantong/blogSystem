@@ -27,6 +27,7 @@ import '../../assets/js/jquery.Jcrop.js'
 import cutPictures from '../../getCGI/cutPictures.js'
 	export default {
 		name: 'cutPictures',
+		props: ['obj'],
 		data() {
 			return {
 				data: {
@@ -55,8 +56,8 @@ import cutPictures from '../../getCGI/cutPictures.js'
 					onChange: that.updateCoords,
 					onSelect: that.updateCoords,
 					aspectRatio: 1,
-					boxWidth: 300,
-					boxHeight: 300
+					boxWidth: this.obj.boxWidth,
+					boxHeight: this.obj.boxHeight
 				}, function () {
 					//弹窗中显示的图片尺寸
 					let mask = this.getBounds();
@@ -78,8 +79,10 @@ import cutPictures from '../../getCGI/cutPictures.js'
 				let ctx = this.$refs.myCanvas.getContext('2d');
 				ctx.clearRect(0, 0, 146, 146);
 				try {
-					this.data.widthScale = this.data.widthScale === 1 ? this.$refs.image["0"].width / 250 : this.data.widthScale;
-					this.data.heightScale = this.data.heightScale === 1 ? this.$refs.image["0"].height / 250 : this.data.heightScale; 
+					// this.data.widthScale = this.data.widthScale === 1 ? this.$refs.image["0"].width / 250 : this.data.widthScale;
+					// this.data.heightScale = this.data.heightScale === 1 ? this.$refs.image["0"].height / 250 : this.data.heightScale; 
+					this.data.widthScale = this.obj.widthScale;
+					this.data.heightScale = this.obj.heightScale;
 				} catch(e) {}
 				//绘制画布
 				console.log(this.data.widthScale);
@@ -87,6 +90,7 @@ import cutPictures from '../../getCGI/cutPictures.js'
 				//console.log(this.$refs.myCanvas);
 			},
 			cutPictures() {
+				//this.initJcrop();
 				if (this.$refs.upload.files.leng === 0) {
 					return;
 				}
@@ -118,7 +122,7 @@ import cutPictures from '../../getCGI/cutPictures.js'
 					//裁剪组件的初始化
 					this.initJcrop();
 				}
-			}
+			 }
 		}
 	}
 </script>

@@ -4,7 +4,7 @@ import responseJson from '../responseJson';
 
 //实现数据分页
 let page = (data, model, req, res) => {
-	
+	//console.log(model);
 	if (data['last_id'] == false) {
 		
 		model.find({}, null, {limit: Number(data.pageSize), sort: {'_id': -1}}, (err, doc) => {
